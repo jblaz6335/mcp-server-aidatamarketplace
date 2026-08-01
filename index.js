@@ -38,6 +38,11 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
         name: "get_signals",
         description: "Get algorithmic crypto trading signals. Costs 0.20 USDC.",
         inputSchema: { type: "object", properties: { tx_hash: { type: "string" } } }
+      },
+      {
+        name: "get_contracts",
+        description: "Get government contracts. Costs 0.10 USDC.",
+        inputSchema: { type: "object", properties: { tx_hash: { type: "string" } } }
       }
     ]
   };
@@ -66,6 +71,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       url = BASE_URL + "/gigs";
     } else if (name === "get_signals") {
       url = BASE_URL + "/signals";
+    } else if (name === "get_contracts") {
+      url = BASE_URL + "/contracts";
     } else {
       throw new Error("Unknown tool");
     }
