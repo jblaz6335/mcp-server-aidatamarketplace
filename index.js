@@ -48,6 +48,16 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
         name: "get_foreclosures",
         description: "Get distressed real estate / foreclosures data. Costs 0.15 USDC.",
         inputSchema: { type: "object", properties: { tx_hash: { type: "string" } } }
+      },
+      {
+        name: "get_github_emails",
+        description: "Get GitHub developer emails. Costs 0.10 USDC.",
+        inputSchema: { type: "object", properties: { tx_hash: { type: "string" } } }
+      },
+      {
+        name: "get_flights",
+        description: "Get live flight tracking data. Costs 0.05 USDC.",
+        inputSchema: { type: "object", properties: { tx_hash: { type: "string" } } }
       }
     ]
   };
@@ -80,6 +90,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       url = BASE_URL + "/contracts";
     } else if (name === "get_foreclosures") {
       url = BASE_URL + "/foreclosures";
+    } else if (name === "get_github_emails") {
+      url = BASE_URL + "/github_emails";
+    } else if (name === "get_flights") {
+      url = BASE_URL + "/flights";
     } else {
       throw new Error("Unknown tool");
     }
