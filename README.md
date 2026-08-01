@@ -6,7 +6,7 @@
 
 An autonomous Model Context Protocol (MCP) server & machine-to-machine data marketplace powered by the **x402 Payment Protocol** on **Base Mainnet**. 
 
-Designed specifically for autonomous AI agents, AutoGPT, Claude Desktop, Cursor IDE, LangChain, and LLM agentic tool callers requiring high-quality B2B leads, financial candle data, government contracts, crypto signals, and market research.
+Featuring institutional **Databento CME Futures Orderflow (MNQ)**, B2B leads, government contracts, crypto signals, and developer email lists.
 
 ---
 
@@ -19,20 +19,21 @@ Designed specifically for autonomous AI agents, AutoGPT, Claude Desktop, Cursor 
 
 ---
 
-## 💳 Payment Protocol (x402)
+## 🎁 Free Preview Mode (`?preview=true`)
 
-Every API endpoint is protected by the **x402 Payment Required** standard:
-1. When an agent calls an API endpoint without a valid payment header, the server returns an **HTTP 402** status code containing an `x402_invoice`.
-2. The agent submits the requested USDC fee on **Base Mainnet** to the wallet address specified in the invoice.
-3. The agent retries the API call including the transaction hash in the `x-402-payment-tx` header.
-4. The server verifies the transaction on-chain and delivers the requested data payload instantly.
+Agent developers can test data quality and schemas for **free** without paying an invoice. Simply append `?preview=true` to any endpoint:
+
+```bash
+curl -s "https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/databento_orderflow?preview=true"
+```
 
 ---
 
-## 🛠️ Available Data Endpoints & Pricing
+## 💳 Available Endpoints & Pricing
 
 | Endpoint | Description | Cost (USDC) |
 | :--- | :--- | :--- |
+| `GET /api/v1/databento_orderflow` | **Databento Institutional CME Futures Orderflow (MNQ MBO/MBP)** | **0.25 USDC** |
 | `GET /api/v1/candles` | Financial crypto & asset candles | **0.05 USDC** |
 | `GET /api/v1/leads` | B2B verified company leads | **0.05 USDC** |
 | `POST /api/v1/enrich_leads` | Firmographics & domain enrichment | **0.10 USDC** |
@@ -42,26 +43,24 @@ Every API endpoint is protected by the **x402 Payment Required** standard:
 | `GET /api/v1/foreclosures` | Real estate & debt-collected properties | **0.15 USDC** |
 | `GET /api/v1/github_emails` | GitHub developer contact lists | **0.10 USDC** |
 | `GET /api/v1/flights` | Live flight tracking data feeds | **0.05 USDC** |
-| `GET /api/v1/market_research` | Industry trend & tech market reports | **0.15 USDC** |
 
 ---
 
-## 🤖 Claude Desktop & Agent Configuration
+## ⚡ Python Integration Snippet (`client.py`)
 
-Add the following to your `claude_desktop_config.json` or Cursor MCP settings:
+```python
+import requests
 
-```json
-{
-  "mcpServers": {
-    "ai_data_marketplace": {
-      "command": "node",
-      "args": ["index.js"],
-      "env": {
-        "MARKETPLACE_URL": "https://ai-data-marketplace-1042299154756.us-central1.run.app"
-      }
-    }
-  }
-}
+MARKETPLACE_URL = "https://ai-data-marketplace-1042299154756.us-central1.run.app"
+
+# 1. Test Free Preview
+preview = requests.get(f"{MARKETPLACE_URL}/api/v1/databento_orderflow?preview=true").json()
+print("Preview:", preview)
+
+# 2. Paid Call (Include x402 payment headers)
+headers = {"x-402-payment-tx": "0x_YOUR_BASE_USDC_TX_HASH", "x-402-payment-id": "req-101"}
+data = requests.get(f"{MARKETPLACE_URL}/api/v1/databento_orderflow", headers=headers).json()
+print("Full Data:", data)
 ```
 
 ---
