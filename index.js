@@ -43,6 +43,11 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
         name: "get_contracts",
         description: "Get government contracts. Costs 0.10 USDC.",
         inputSchema: { type: "object", properties: { tx_hash: { type: "string" } } }
+      },
+      {
+        name: "get_foreclosures",
+        description: "Get distressed real estate / foreclosures data. Costs 0.15 USDC.",
+        inputSchema: { type: "object", properties: { tx_hash: { type: "string" } } }
       }
     ]
   };
@@ -73,6 +78,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       url = BASE_URL + "/signals";
     } else if (name === "get_contracts") {
       url = BASE_URL + "/contracts";
+    } else if (name === "get_foreclosures") {
+      url = BASE_URL + "/foreclosures";
     } else {
       throw new Error("Unknown tool");
     }
