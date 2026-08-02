@@ -19,9 +19,9 @@ Provides high-precision institutional datasets—including **Databento CME Futur
 
 ---
 
-## Data Schema Inspection (`?preview=true`)
+## Data Schema Inspection Mode
 
-Client applications and autonomous agents can evaluate response schemas and data quality without executing a paid transaction by appending `?preview=true`:
+Client applications and autonomous agents can evaluate response schemas and data quality without executing a paid transaction by adding the `preview=true` parameter:
 
 ```bash
 curl -s "https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/databento_orderflow?preview=true"
