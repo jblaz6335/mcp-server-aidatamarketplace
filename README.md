@@ -6,7 +6,7 @@
 
 Model Context Protocol (MCP) server and machine-to-machine data API gateway powered by the **x402 Payment Protocol** on **Base Mainnet**.
 
-Provides high-precision institutional datasets—including **Databento CME Futures Orderflow (MNQ MBO/MBP)**, B2B company leads, government contract awards, crypto signals, and developer contact data.
+The production catalog currently contains **10 billable tools** and **92 total catalog entries**. Every API response identifies its data mode as `live_source`, `curated_snapshot`, `sample`, or `service`. Sample tools are available for transparent inspection but cannot accept payment.
 
 ---
 
@@ -25,7 +25,7 @@ Provides high-precision institutional datasets—including **Databento CME Futur
 Client applications and autonomous agents can evaluate response schemas and data quality without executing a paid transaction by adding the `preview=true` parameter:
 
 ```bash
-curl -s "https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/databento_orderflow?preview=true"
+curl -s "https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/candles?preview=true&ticker=bitcoin"
 ```
 
 ---
@@ -34,18 +34,18 @@ curl -s "https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/da
 
 | Endpoint | Data Type / Description | Settlement (USDC) |
 | :--- | :--- | :--- |
-| `GET /api/v1/databento_orderflow` | Databento CME Futures Orderflow (MNQ MBO/MBP depth & trades) | **0.25 USDC** |
-| `GET /api/v1/github_trending` | Trending AI GitHub Repositories & Star Velocity | **0.10 USDC** |
-| `GET /api/v1/leads` | B2B verified company records | **0.05 USDC** |
-| `POST /api/v1/enrich_leads` | Firmographics & domain enrichment | **0.10 USDC** |
-| `GET /api/v1/contracts` | Federal & state government contract awards | **0.10 USDC** |
-| `GET /api/v1/github_emails` | GitHub developer contact records | **0.10 USDC** |
-| `GET /api/v1/foreclosures` | Real estate & debt-collected properties | **0.15 USDC** |
-| `GET /api/v1/signals` | Algorithmic trading signals & metrics | **0.20 USDC** |
-| `GET /api/v1/gigs` | Freelance arbitrage opportunity leads | **0.10 USDC** |
-| `GET /api/v1/market_research` | Industry technology & trend reports | **0.15 USDC** |
-| `GET /api/v1/flights` | Live flight tracking & route feeds | **0.05 USDC** |
-| `GET /api/v1/candles` | Market price candle data | **0.05 USDC** |
+| `GET /api/v1/candles` | Live CoinGecko market price data | **0.05 USDC** |
+| `POST /api/v1/enrich_leads` | Live Clearbit company suggestions | **0.10 USDC** |
+| `GET /api/v1/market_research` | Live Hacker News trend data | **0.15 USDC** |
+| `GET /api/v1/leads` | Curated B2B lead snapshot | **0.05 USDC** |
+| `GET /api/v1/contracts` | Curated government-contract snapshot | **0.10 USDC** |
+| `GET /api/v1/github_emails` | Curated developer-contact snapshot | **0.10 USDC** |
+| `GET /api/v1/foreclosures` | Curated distressed-property snapshot | **0.15 USDC** |
+| `GET /api/v1/signals` | Curated algorithmic-signal snapshot | **0.20 USDC** |
+| `GET /api/v1/gigs` | Curated freelance-gig snapshot | **0.10 USDC** |
+| `GET /api/v1/flights` | Curated flight-data snapshot | **0.05 USDC** |
+
+Other catalog entries are labeled `sample` and return `TOOL_NOT_FOR_SALE` when called without `preview=true`.
 
 ---
 
@@ -56,16 +56,17 @@ import requests
 
 MARKETPLACE_URL = "https://ai-data-marketplace-1042299154756.us-central1.run.app"
 
-# 1. Schema Evaluation (Free Preview)
-preview = requests.get(f"{MARKETPLACE_URL}/api/v1/databento_orderflow?preview=true").json()
-print("Preview Schema:", preview)
+# 1. Request an invoice
+invoice_response = requests.get(f"{MARKETPLACE_URL}/api/v1/candles?ticker=bitcoin")
+invoice = invoice_response.json()["x402_invoice"]
+print("Pay this Base USDC invoice with an external wallet:", invoice)
 
-# 2. Paid Query (Execute via x402 header)
+# 2. After paying externally, retry with the real transaction hash and invoice ID
 headers = {
-    "x-402-payment-tx": "0x_YOUR_BASE_USDC_TX_HASH",
-    "x-402-payment-id": "client-request-101"
+    "x-402-payment-tx": "0x_YOUR_REAL_BASE_TRANSACTION_HASH",
+    "x-402-payment-id": invoice["payment_id"]
 }
-data = requests.get(f"{MARKETPLACE_URL}/api/v1/databento_orderflow", headers=headers).json()
+data = requests.get(f"{MARKETPLACE_URL}/api/v1/candles?ticker=bitcoin", headers=headers).json()
 print("Payload Result:", data)
 ```
 
