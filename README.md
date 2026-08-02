@@ -14,6 +14,7 @@ Provides high-precision institutional datasets—including **Databento CME Futur
 
 - **Base Service URL:** `https://ai-data-marketplace-1042299154756.us-central1.run.app`
 - **OpenAPI Specification:** `https://ai-data-marketplace-1042299154756.us-central1.run.app/openapi.json`
+- **Postman 1-Click Collection:** `https://ai-data-marketplace-1042299154756.us-central1.run.app/postman.json`
 - **LLM Manifest:** `https://ai-data-marketplace-1042299154756.us-central1.run.app/llms.txt`
 - **x402 Protocol Manifest:** `https://ai-data-marketplace-1042299154756.us-central1.run.app/.well-known/x402.json`
 
@@ -34,6 +35,7 @@ curl -s "https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/da
 | Endpoint | Data Type / Description | Settlement (USDC) |
 | :--- | :--- | :--- |
 | `GET /api/v1/databento_orderflow` | Databento CME Futures Orderflow (MNQ MBO/MBP depth & trades) | **0.25 USDC** |
+| `GET /api/v1/github_trending` | Trending AI GitHub Repositories & Star Velocity | **0.10 USDC** |
 | `GET /api/v1/leads` | B2B verified company records | **0.05 USDC** |
 | `POST /api/v1/enrich_leads` | Firmographics & domain enrichment | **0.10 USDC** |
 | `GET /api/v1/contracts` | Federal & state government contract awards | **0.10 USDC** |
