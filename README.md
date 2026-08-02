@@ -4,24 +4,24 @@
 [![x402 Protocol](https://img.shields.io/badge/Protocol-x402-green)](https://ai-data-marketplace-1042299154756.us-central1.run.app/.well-known/x402.json)
 [![Model Context Protocol](https://img.shields.io/badge/MCP-Server-purple)](https://modelcontextprotocol.io)
 
-An autonomous Model Context Protocol (MCP) server & machine-to-machine data marketplace powered by the **x402 Payment Protocol** on **Base Mainnet**. 
+Model Context Protocol (MCP) server and machine-to-machine data API gateway powered by the **x402 Payment Protocol** on **Base Mainnet**.
 
-Featuring institutional **Databento CME Futures Orderflow (MNQ)**, B2B leads, government contracts, crypto signals, and developer email lists.
+Provides high-precision institutional datasets—including **Databento CME Futures Orderflow (MNQ MBO/MBP)**, B2B company leads, government contract awards, crypto signals, and developer contact data.
 
 ---
 
-## 🌐 Live Production Endpoint
+## Production API Service
 
-- **Base URL:** `https://ai-data-marketplace-1042299154756.us-central1.run.app`
-- **OpenAPI Spec:** `https://ai-data-marketplace-1042299154756.us-central1.run.app/openapi.json`
+- **Base Service URL:** `https://ai-data-marketplace-1042299154756.us-central1.run.app`
+- **OpenAPI Specification:** `https://ai-data-marketplace-1042299154756.us-central1.run.app/openapi.json`
 - **LLM Manifest:** `https://ai-data-marketplace-1042299154756.us-central1.run.app/llms.txt`
-- **x402 Manifest:** `https://ai-data-marketplace-1042299154756.us-central1.run.app/.well-known/x402.json`
+- **x402 Protocol Manifest:** `https://ai-data-marketplace-1042299154756.us-central1.run.app/.well-known/x402.json`
 
 ---
 
-## 🎁 Free Preview Mode (`?preview=true`)
+## Data Schema Inspection (`?preview=true`)
 
-Agent developers can test data quality and schemas for **free** without paying an invoice. Simply append `?preview=true` to any endpoint:
+Client applications and autonomous agents can evaluate response schemas and data quality without executing a paid transaction by appending `?preview=true`:
 
 ```bash
 curl -s "https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/databento_orderflow?preview=true"
@@ -29,41 +29,45 @@ curl -s "https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/da
 
 ---
 
-## 💳 Available Endpoints & Pricing
+## Endpoints & Pricing Catalog
 
-| Endpoint | Description | Cost (USDC) |
+| Endpoint | Data Type / Description | Settlement (USDC) |
 | :--- | :--- | :--- |
-| `GET /api/v1/databento_orderflow` | **Databento Institutional CME Futures Orderflow (MNQ MBO/MBP)** | **0.25 USDC** |
-| `GET /api/v1/candles` | Financial crypto & asset candles | **0.05 USDC** |
-| `GET /api/v1/leads` | B2B verified company leads | **0.05 USDC** |
+| `GET /api/v1/databento_orderflow` | Databento CME Futures Orderflow (MNQ MBO/MBP depth & trades) | **0.25 USDC** |
+| `GET /api/v1/leads` | B2B verified company records | **0.05 USDC** |
 | `POST /api/v1/enrich_leads` | Firmographics & domain enrichment | **0.10 USDC** |
-| `GET /api/v1/gigs` | Freelance arbitrage gig opportunities | **0.10 USDC** |
-| `GET /api/v1/signals` | Algorithmic crypto trading signals | **0.20 USDC** |
-| `GET /api/v1/contracts` | Federal & state government contracts | **0.10 USDC** |
+| `GET /api/v1/contracts` | Federal & state government contract awards | **0.10 USDC** |
+| `GET /api/v1/github_emails` | GitHub developer contact records | **0.10 USDC** |
 | `GET /api/v1/foreclosures` | Real estate & debt-collected properties | **0.15 USDC** |
-| `GET /api/v1/github_emails` | GitHub developer contact lists | **0.10 USDC** |
-| `GET /api/v1/flights` | Live flight tracking data feeds | **0.05 USDC** |
+| `GET /api/v1/signals` | Algorithmic trading signals & metrics | **0.20 USDC** |
+| `GET /api/v1/gigs` | Freelance arbitrage opportunity leads | **0.10 USDC** |
+| `GET /api/v1/market_research` | Industry technology & trend reports | **0.15 USDC** |
+| `GET /api/v1/flights` | Live flight tracking & route feeds | **0.05 USDC** |
+| `GET /api/v1/candles` | Market price candle data | **0.05 USDC** |
 
 ---
 
-## ⚡ Python Integration Snippet (`client.py`)
+## Integration Client (`client.py`)
 
 ```python
 import requests
 
 MARKETPLACE_URL = "https://ai-data-marketplace-1042299154756.us-central1.run.app"
 
-# 1. Test Free Preview
+# 1. Schema Evaluation (Free Preview)
 preview = requests.get(f"{MARKETPLACE_URL}/api/v1/databento_orderflow?preview=true").json()
-print("Preview:", preview)
+print("Preview Schema:", preview)
 
-# 2. Paid Call (Include x402 payment headers)
-headers = {"x-402-payment-tx": "0x_YOUR_BASE_USDC_TX_HASH", "x-402-payment-id": "req-101"}
+# 2. Paid Query (Execute via x402 header)
+headers = {
+    "x-402-payment-tx": "0x_YOUR_BASE_USDC_TX_HASH",
+    "x-402-payment-id": "client-request-101"
+}
 data = requests.get(f"{MARKETPLACE_URL}/api/v1/databento_orderflow", headers=headers).json()
-print("Full Data:", data)
+print("Payload Result:", data)
 ```
 
 ---
 
-## 📜 License
-MIT License. Open source MCP server for agentic data discovery.
+## License
+MIT License. Open-source Model Context Protocol server.
