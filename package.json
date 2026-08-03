@@ -1,6 +1,6 @@
 {
   "name": "ai_data_marketplace_mcp",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Dynamic MCP client for the capability-audited DopamineDesk x402 AI Data Marketplace on Base",
   "main": "index.js",
   "scripts": {

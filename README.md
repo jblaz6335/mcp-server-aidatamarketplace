@@ -1,12 +1,12 @@
 # AI Data Marketplace MCP Server
 
 [![Base Mainnet](https://img.shields.io/badge/Network-Base_Mainnet-blue)](https://base.org)
-[![x402 Protocol](https://img.shields.io/badge/Protocol-x402-green)](https://ai-data-marketplace-1042299154756.us-central1.run.app/.well-known/x402.json)
+[![x402 Protocol](https://img.shields.io/badge/Protocol-x402-green)](https://ai-data-marketplace-1042299154756.us-central1.run.app/.well-known/x402)
 [![Model Context Protocol](https://img.shields.io/badge/MCP-Server-purple)](https://modelcontextprotocol.io)
 
 Model Context Protocol (MCP) server and machine-to-machine data API gateway powered by the **x402 Payment Protocol** on **Base Mainnet**.
 
-The production catalog contains **43 capability-audited billable tools** and **92 total catalog entries**. The billable set consists of 36 live-source tools, 1 verified government-contract snapshot, 5 input-sensitive processors, and 1 verified payment-credit service. Of all catalog entries, 46 are operational, 40 are preview-only fixtures, and 6 are explicitly unavailable. Every API response identifies its data mode, availability, billing state, and backing source.
+The production catalog contains **43 capability-audited billable tools** and **86 total public catalog entries**. The billable set consists of 36 live-source tools, 1 verified government-contract snapshot, 5 input-sensitive processors, and 1 verified payment-credit service. Of all public entries, 46 are operational and 40 are labeled preview-only fixtures. Every API response identifies its data mode, availability, billing state, and backing source.
 
 The MCP adapter builds its tool list from the production OpenAPI document. It does not maintain a stale hand-written endpoint list.
 
@@ -18,7 +18,7 @@ The MCP adapter builds its tool list from the production OpenAPI document. It do
 - **OpenAPI Specification:** `https://ai-data-marketplace-1042299154756.us-central1.run.app/openapi.json`
 - **Postman 1-Click Collection:** `https://ai-data-marketplace-1042299154756.us-central1.run.app/postman.json`
 - **LLM Manifest:** `https://ai-data-marketplace-1042299154756.us-central1.run.app/llms.txt`
-- **x402 Protocol Manifest:** `https://ai-data-marketplace-1042299154756.us-central1.run.app/.well-known/x402.json`
+- **x402 Protocol Manifest:** `https://ai-data-marketplace-1042299154756.us-central1.run.app/.well-known/x402`
 
 ---
 
@@ -49,7 +49,7 @@ curl -s "https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/ca
 | `POST /api/v1/summarize` | Deterministic extractive summarization | **0.02 USDC** |
 | `POST /api/v1/translate` | Live MyMemory translation | **0.02 USDC** |
 
-See the production x402 manifest or OpenAPI document for the complete live list. Preview-only fixtures return `TOOL_NOT_FOR_SALE` without `preview=true`. Unavailable concepts return HTTP 501 and never accept payment.
+See the production x402 manifest or OpenAPI document for the complete live list. Preview-only fixtures return `TOOL_NOT_FOR_SALE` without `preview=true`.
 
 ---
 
