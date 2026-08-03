@@ -6,7 +6,9 @@
 
 Model Context Protocol (MCP) server and machine-to-machine data API gateway powered by the **x402 Payment Protocol** on **Base Mainnet**.
 
-The production catalog currently contains **10 billable tools** and **92 total catalog entries**. Every API response identifies its data mode as `live_source`, `curated_snapshot`, `sample`, or `service`. Sample tools are available for transparent inspection but cannot accept payment.
+The production catalog contains **43 capability-audited billable tools** and **92 total catalog entries**. The billable set consists of 36 live-source tools, 1 verified government-contract snapshot, 5 input-sensitive processors, and 1 verified payment-credit service. Of all catalog entries, 46 are operational, 40 are preview-only fixtures, and 6 are explicitly unavailable. Every API response identifies its data mode, availability, billing state, and backing source.
+
+The MCP adapter builds its tool list from the production OpenAPI document. It does not maintain a stale hand-written endpoint list.
 
 ---
 
@@ -34,18 +36,20 @@ curl -s "https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/ca
 
 | Endpoint | Data Type / Description | Settlement (USDC) |
 | :--- | :--- | :--- |
-| `GET /api/v1/candles` | Live CoinGecko market price data | **0.05 USDC** |
+| `GET /api/v1/candles` | Live CoinGecko market price history | **0.05 USDC** |
+| `GET /api/v1/stock_quotes` | Live market quote snapshot | **0.05 USDC** |
+| `GET /api/v1/sec_edgar_filings` | Official SEC filing metadata and links | **0.10 USDC** |
+| `GET /api/v1/token_audit` | Live GoPlus token security signals | **0.10 USDC** |
+| `POST /api/v1/tx_simulator` | Read-only EVM call and gas simulation | **0.10 USDC** |
+| `GET /api/v1/weather_forecast` | Live Open-Meteo forecast | **0.02 USDC** |
+| `POST /api/v1/scrape_md` | Public page to bounded Markdown-like text | **0.01 USDC** |
 | `POST /api/v1/enrich_leads` | Live Clearbit company suggestions | **0.10 USDC** |
-| `GET /api/v1/market_research` | Live Hacker News trend data | **0.15 USDC** |
-| `GET /api/v1/leads` | Curated B2B lead snapshot | **0.05 USDC** |
-| `GET /api/v1/contracts` | Curated government-contract snapshot | **0.10 USDC** |
-| `GET /api/v1/github_emails` | Curated developer-contact snapshot | **0.10 USDC** |
-| `GET /api/v1/foreclosures` | Curated distressed-property snapshot | **0.15 USDC** |
-| `GET /api/v1/signals` | Curated algorithmic-signal snapshot | **0.20 USDC** |
-| `GET /api/v1/gigs` | Curated freelance-gig snapshot | **0.10 USDC** |
-| `GET /api/v1/flights` | Curated flight-data snapshot | **0.05 USDC** |
+| `GET /api/v1/leads` | Live official-city business registration prospects | **0.05 USDC** |
+| `GET /api/v1/contracts` | 100 API-verified USAspending award records | **0.10 USDC** |
+| `POST /api/v1/summarize` | Deterministic extractive summarization | **0.02 USDC** |
+| `POST /api/v1/translate` | Live MyMemory translation | **0.02 USDC** |
 
-Other catalog entries are labeled `sample` and return `TOOL_NOT_FOR_SALE` when called without `preview=true`.
+See the production x402 manifest or OpenAPI document for the complete live list. Preview-only fixtures return `TOOL_NOT_FOR_SALE` without `preview=true`. Unavailable concepts return HTTP 501 and never accept payment.
 
 ---
 

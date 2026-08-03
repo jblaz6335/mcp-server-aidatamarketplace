@@ -1,7 +1,7 @@
 {
   "name": "ai_data_marketplace_mcp",
-  "version": "1.2.0",
-  "description": "MCP client for the DopamineDesk x402 AI Data Marketplace on Base",
+  "version": "2.0.0",
+  "description": "Dynamic MCP client for the capability-audited DopamineDesk x402 AI Data Marketplace on Base",
   "main": "index.js",
   "scripts": {
     "test": "node --check index.js"

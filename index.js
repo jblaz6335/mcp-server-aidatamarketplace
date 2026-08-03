@@ -1,132 +1,118 @@
-import { Server } from "@modelcontextprotocol/sdk/server/index.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
-import axios from "axios";
+import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
+import axios from 'axios';
 
-const server = new Server({ name: "aidatamarketplace", version: "1.2.0" }, { capabilities: { tools: {} } });
-const BASE_URL = "https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1";
+const ORIGIN = process.env.MARKETPLACE_URL || 'https://ai-data-marketplace-1042299154756.us-central1.run.app';
+const server = new Server({ name: 'aidatamarketplace', version: '2.0.0' }, { capabilities: { tools: {} } });
+const CACHE_TTL_MS = 5 * 60 * 1000;
+let catalogCache = null;
+let catalogCachedAt = 0;
+
+function toolName(method, endpointPath) {
+  const slug = endpointPath.replace(/^\/api\/v1\//, '').replace(/[^a-zA-Z0-9_-]/g, '_');
+  return method === 'GET' ? `get_${slug}` : slug;
+}
+
+function transportFields() {
+  return {
+    preview: { type: 'boolean', description: 'Use the rate-limited free preview without payment.' },
+    tx_hash: { type: 'string', description: 'Base transaction hash after paying an x402 invoice.' },
+    payment_id: { type: 'string', description: 'payment_id returned by the x402 invoice.' },
+    agent_token: { type: 'string', description: 'Optional pre-funded marketplace bearer token.' }
+  };
+}
+
+async function loadCatalog() {
+  if (catalogCache && Date.now() - catalogCachedAt < CACHE_TTL_MS) return catalogCache;
+  const response = await axios.get(`${ORIGIN}/openapi.json`, { timeout: 15_000 });
+  const paths = response.data?.paths || {};
+  const tools = [];
+  const byName = new Map();
+
+  for (const [endpointPath, methods] of Object.entries(paths)) {
+    for (const [methodLower, operation] of Object.entries(methods)) {
+      const method = methodLower.toUpperCase();
+      if (!['GET', 'POST'].includes(method) || operation['x-billable'] !== true || operation['x-availability'] !== 'operational') continue;
+      const baseProperties = method === 'GET'
+        ? Object.fromEntries((operation.parameters || []).map(parameter => [parameter.name, parameter.schema || { type: 'string' }]))
+        : operation.requestBody?.content?.['application/json']?.schema?.properties || {};
+      const required = method === 'GET'
+        ? (operation.parameters || []).filter(parameter => parameter.required).map(parameter => parameter.name)
+        : operation.requestBody?.content?.['application/json']?.schema?.required || [];
+      const name = toolName(method, endpointPath);
+      const descriptor = {
+        name,
+        description: `${operation.description} Price: ${operation['x-price-usdc']} USDC. Mode: ${operation['x-data-mode']}. Source: ${operation['x-source'] || 'declared in response'}.`,
+        inputSchema: { type: 'object', properties: { ...baseProperties, ...transportFields() }, required },
+        _route: { method, endpointPath }
+      };
+      tools.push(descriptor);
+      byName.set(name, descriptor);
+    }
+  }
+
+  catalogCache = { tools, byName };
+  catalogCachedAt = Date.now();
+  return catalogCache;
+}
 
 server.setRequestHandler(ListToolsRequestSchema, async () => {
-  const tools = [
-      {
-        name: "get_candles",
-        description: "Get financial candles. Costs 0.05 USDC.",
-        inputSchema: { type: "object", properties: { ticker: { type: "string" }, tx_hash: { type: "string", description: "x402 payment tx hash (if previously invoiced)" } } }
-      },
-      {
-        name: "get_leads",
-        description: "Get a curated B2B lead snapshot by niche or city. Costs 0.05 USDC.",
-        inputSchema: { type: "object", properties: { niche: { type: "string" }, city: { type: "string" }, tx_hash: { type: "string" } } }
-      },
-      {
-        name: "enrich_leads",
-        description: "Enrich B2B leads. Costs 0.10 USDC.",
-        inputSchema: { type: "object", properties: { domains: { type: "array", items: { type: "string" } }, tx_hash: { type: "string" } } }
-      },
-      {
-        name: "get_market_research",
-        description: "Get market research. Costs 0.15 USDC.",
-        inputSchema: { type: "object", properties: { industry: { type: "string" }, tx_hash: { type: "string" } } }
-      },
-      {
-        name: "get_gigs",
-        description: "Get a curated freelance-gig snapshot. Costs 0.10 USDC.",
-        inputSchema: { type: "object", properties: { tx_hash: { type: "string" } } }
-      },
-      {
-        name: "get_signals",
-        description: "Get a curated algorithmic-signal snapshot. Costs 0.20 USDC.",
-        inputSchema: { type: "object", properties: { tx_hash: { type: "string" } } }
-      },
-      {
-        name: "get_contracts",
-        description: "Get a curated government-contract snapshot. Costs 0.10 USDC.",
-        inputSchema: { type: "object", properties: { tx_hash: { type: "string" } } }
-      },
-      {
-        name: "get_foreclosures",
-        description: "Get a curated distressed-real-estate snapshot. Costs 0.15 USDC.",
-        inputSchema: { type: "object", properties: { tx_hash: { type: "string" } } }
-      },
-      {
-        name: "get_github_emails",
-        description: "Get a curated GitHub developer-contact snapshot. Costs 0.10 USDC.",
-        inputSchema: { type: "object", properties: { tx_hash: { type: "string" } } }
-      },
-      {
-        name: "get_flights",
-        description: "Get a curated flight-data snapshot. Costs 0.05 USDC.",
-        inputSchema: { type: "object", properties: { tx_hash: { type: "string" } } }
-      }
-    ];
-  return {
-    tools: tools.map(tool => ({
-      ...tool,
-      inputSchema: {
-        ...tool.inputSchema,
-        properties: {
-          ...tool.inputSchema.properties,
-          payment_id: {
-            type: "string",
-            description: "payment_id returned by the marketplace's 402 invoice"
-          }
-        }
-      }
-    }))
-  };
+  const catalog = await loadCatalog();
+  return { tools: catalog.tools.map(({ _route, ...tool }) => tool) };
 });
 
-server.setRequestHandler(CallToolRequestSchema, async (request) => {
+server.setRequestHandler(CallToolRequestSchema, async request => {
   try {
-    const { name, arguments: args } = request.params;
-    let url = "";
-    let method = "GET";
-    let data = null;
+    const catalog = await loadCatalog();
+    const descriptor = catalog.byName.get(request.params.name);
+    if (!descriptor) throw new Error(`Unknown or currently non-billable tool: ${request.params.name}`);
 
-    if (name === "get_candles") {
-      url = BASE_URL + "/candles?ticker=" + encodeURIComponent(args.ticker || "bitcoin");
-    } else if (name === "get_leads") {
-      url = BASE_URL + "/leads?";
-      if (args.niche) url += "niche=" + encodeURIComponent(args.niche) + "&";
-      if (args.city) url += "city=" + encodeURIComponent(args.city);
-    } else if (name === "enrich_leads") {
-      url = BASE_URL + "/enrich_leads";
-      method = "POST";
-      data = { domains: args.domains || ["stripe.com"] };
-    } else if (name === "get_market_research") {
-      url = BASE_URL + "/market_research?industry=" + encodeURIComponent(args.industry || "Technology");
-    } else if (name === "get_gigs") {
-      url = BASE_URL + "/gigs";
-    } else if (name === "get_signals") {
-      url = BASE_URL + "/signals";
-    } else if (name === "get_contracts") {
-      url = BASE_URL + "/contracts";
-    } else if (name === "get_foreclosures") {
-      url = BASE_URL + "/foreclosures";
-    } else if (name === "get_github_emails") {
-      url = BASE_URL + "/github_emails";
-    } else if (name === "get_flights") {
-      url = BASE_URL + "/flights";
-    } else {
-      throw new Error("Unknown tool");
-    }
+    const args = { ...(request.params.arguments || {}) };
+    const txHash = args.tx_hash;
+    const paymentId = args.payment_id;
+    const agentToken = args.agent_token;
+    const preview = args.preview === true;
+    delete args.tx_hash;
+    delete args.payment_id;
+    delete args.agent_token;
+    delete args.preview;
 
+    if (txHash && !paymentId) throw new Error('payment_id is required with tx_hash. Use the payment_id returned by the 402 invoice.');
     const headers = {};
-    if (args.tx_hash) {
-      if (!args.payment_id) {
-        throw new Error("payment_id is required with tx_hash. Use the payment_id returned by the 402 invoice.");
+    if (txHash) {
+      headers['x-402-payment-tx'] = txHash;
+      headers['x-402-payment-id'] = paymentId;
+    }
+    if (agentToken) headers.authorization = `Bearer ${agentToken}`;
+
+    const url = new URL(`${ORIGIN}${descriptor._route.endpointPath}`);
+    let data;
+    if (preview) url.searchParams.set('preview', 'true');
+    if (descriptor._route.method === 'GET') {
+      for (const [key, value] of Object.entries(args)) {
+        if (value == null) continue;
+        url.searchParams.set(key, Array.isArray(value) || typeof value === 'object' ? JSON.stringify(value) : String(value));
       }
-      headers["x-402-payment-tx"] = args.tx_hash;
-      headers["x-402-payment-id"] = args.payment_id;
+    } else {
+      data = args;
+      headers['content-type'] = 'application/json';
     }
 
-    const res = await axios({ method, url, data, headers, timeout: 30000, validateStatus: () => true });
+    const response = await axios({
+      method: descriptor._route.method,
+      url: url.toString(),
+      data,
+      headers,
+      timeout: 30_000,
+      validateStatus: () => true
+    });
     return {
-      isError: res.status >= 400,
-      content: [{ type: "text", text: JSON.stringify({ http_status: res.status, ...res.data }, null, 2) }]
+      isError: response.status >= 400 && response.status !== 402,
+      content: [{ type: 'text', text: JSON.stringify({ http_status: response.status, ...response.data }, null, 2) }]
     };
-  } catch (e) {
-    return { content: [{ type: "text", text: "Error: " + e.message }] };
+  } catch (error) {
+    return { isError: true, content: [{ type: 'text', text: `Error: ${error.message}` }] };
   }
 });
 
