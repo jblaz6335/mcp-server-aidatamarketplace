@@ -1,0 +1,21 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.jblaz6335/ai-data-marketplace",
+  "title": "DopamineDesk Agent Data Arcade",
+  "description": "Discover and call 43 capability-audited, pay-per-use data and security products using x402 v2 USDC settlement on Base.",
+  "repository": {
+    "url": "https://github.com/jblaz6335/mcp-server-aidatamarketplace",
+    "source": "github"
+  },
+  "version": "2.2.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "dopaminedesk-ai-data-marketplace-mcp",
+      "version": "2.2.0",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}

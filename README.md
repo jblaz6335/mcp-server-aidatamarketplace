@@ -7,6 +7,29 @@
 
 Model Context Protocol (MCP) server and machine-to-machine data API gateway powered by the **x402 Payment Protocol** on **Base Mainnet**.
 
+## Install
+
+Run directly with npm:
+
+```bash
+npx -y dopaminedesk-ai-data-marketplace-mcp
+```
+
+Claude Desktop or another stdio-compatible MCP client:
+
+```json
+{
+  "mcpServers": {
+    "dopaminedesk-data-arcade": {
+      "command": "npx",
+      "args": ["-y", "dopaminedesk-ai-data-marketplace-mcp"]
+    }
+  }
+}
+```
+
+Official MCP Registry name: `io.github.jblaz6335/ai-data-marketplace`.
+
 The production catalog contains **43 capability-audited billable tools** and **86 total public catalog entries**. The billable set consists of 36 live-source tools, 1 verified government-contract snapshot, 5 input-sensitive processors, and 1 verified payment-credit service. Of all public entries, 46 are operational and 40 are labeled preview-only fixtures. Every API response identifies its data mode, availability, billing state, and backing source.
 
 The MCP adapter builds its tool list from the production OpenAPI document. It does not maintain a stale hand-written endpoint list.
@@ -65,6 +88,8 @@ Every billable product uses x402 v2 exact payments through the PayAI facilitator
 2. Use an x402 v2 client and buyer wallet to sign the exact USDC authorization.
 3. Retry with the resulting `PAYMENT-SIGNATURE` header.
 4. On success, read the settled transaction details from `PAYMENT-RESPONSE`.
+
+The MCP adapter returns both the decoded challenge and the original `payment_required_header`. A compatible buyer can sign that challenge and retry the same tool with the `payment_signature` input. Successful responses include `payment_response_header`.
 
 The server advertises Bazaar discovery schemas for all 43 products. PayAI handles verification and settlement; USDC is delivered directly to the configured marketplace wallet.
 

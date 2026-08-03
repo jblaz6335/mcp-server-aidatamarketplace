@@ -1,10 +1,11 @@
+#!/usr/bin/env node
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import axios from 'axios';
 
 const ORIGIN = process.env.MARKETPLACE_URL || 'https://ai-data-marketplace-1042299154756.us-central1.run.app';
-const server = new Server({ name: 'aidatamarketplace', version: '2.0.0' }, { capabilities: { tools: {} } });
+const server = new Server({ name: 'dopaminedesk-ai-data-marketplace', version: '2.2.0' }, { capabilities: { tools: {} } });
 const CACHE_TTL_MS = 5 * 60 * 1000;
 let catalogCache = null;
 let catalogCachedAt = 0;
@@ -15,9 +16,10 @@ function toolName(method, endpointPath) {
 }
 
 function transportFields() {
-  return {
-    preview: { type: 'boolean', description: 'Use the rate-limited free preview without payment.' },
-    tx_hash: { type: 'string', description: 'Base transaction hash after paying an x402 invoice.' },
+    return {
+        preview: { type: 'boolean', description: 'Use the rate-limited free preview without payment.' },
+        payment_signature: { type: 'string', description: 'Base64 x402 v2 PAYMENT-SIGNATURE produced by a compatible buyer client.' },
+        tx_hash: { type: 'string', description: 'Base transaction hash after paying an x402 invoice.' },
     payment_id: { type: 'string', description: 'payment_id returned by the x402 invoice.' },
     agent_token: { type: 'string', description: 'Optional pre-funded marketplace bearer token.' }
   };
@@ -69,10 +71,12 @@ server.setRequestHandler(CallToolRequestSchema, async request => {
     if (!descriptor) throw new Error(`Unknown or currently non-billable tool: ${request.params.name}`);
 
     const args = { ...(request.params.arguments || {}) };
+    const paymentSignature = args.payment_signature;
     const txHash = args.tx_hash;
     const paymentId = args.payment_id;
     const agentToken = args.agent_token;
     const preview = args.preview === true;
+    delete args.payment_signature;
     delete args.tx_hash;
     delete args.payment_id;
     delete args.agent_token;
@@ -80,6 +84,7 @@ server.setRequestHandler(CallToolRequestSchema, async request => {
 
     if (txHash && !paymentId) throw new Error('payment_id is required with tx_hash. Use the payment_id returned by the 402 invoice.');
     const headers = {};
+    if (paymentSignature) headers['payment-signature'] = paymentSignature;
     if (txHash) {
       headers['x-402-payment-tx'] = txHash;
       headers['x-402-payment-id'] = paymentId;
@@ -107,9 +112,25 @@ server.setRequestHandler(CallToolRequestSchema, async request => {
       timeout: 30_000,
       validateStatus: () => true
     });
+    const paymentRequired = response.headers['payment-required'];
+    const paymentResponse = response.headers['payment-response'];
+    let decodedPaymentRequired = null;
+    if (paymentRequired) {
+      try {
+        decodedPaymentRequired = JSON.parse(Buffer.from(paymentRequired, 'base64').toString('utf8'));
+      } catch {
+        decodedPaymentRequired = null;
+      }
+    }
     return {
       isError: response.status >= 400 && response.status !== 402,
-      content: [{ type: 'text', text: JSON.stringify({ http_status: response.status, ...response.data }, null, 2) }]
+      content: [{ type: 'text', text: JSON.stringify({
+        http_status: response.status,
+        payment_required: decodedPaymentRequired,
+        payment_required_header: paymentRequired || null,
+        payment_response_header: paymentResponse || null,
+        ...response.data
+      }, null, 2) }]
     };
   } catch (error) {
     return { isError: true, content: [{ type: 'text', text: `Error: ${error.message}` }] };

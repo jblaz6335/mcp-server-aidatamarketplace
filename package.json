@@ -1,15 +1,48 @@
 {
-  "name": "ai_data_marketplace_mcp",
-  "version": "2.1.0",
-  "description": "Dynamic MCP client for the capability-audited DopamineDesk x402 AI Data Marketplace on Base",
+  "name": "dopaminedesk-ai-data-marketplace-mcp",
+  "version": "2.2.0",
+  "mcpName": "io.github.jblaz6335/ai-data-marketplace",
+  "description": "MCP adapter for 43 capability-audited, pay-per-use data and security products using x402 v2 on Base.",
   "main": "index.js",
+  "bin": {
+    "dopaminedesk-mcp": "index.js"
+  },
+  "files": [
+    "index.js",
+    "README.md",
+    "PAYMENT_FLOW.md",
+    "LICENSE"
+  ],
   "scripts": {
     "test": "node --check index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "x402",
+    "ai-agents",
+    "base",
+    "usdc",
+    "data-api",
+    "security-tools"
+  ],
+  "author": "DopamineDesk",
+  "license": "MIT",
   "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jblaz6335/mcp-server-aidatamarketplace.git"
+  },
+  "homepage": "https://ai-data-marketplace-1042299154756.us-central1.run.app/",
+  "bugs": {
+    "url": "https://github.com/jblaz6335/mcp-server-aidatamarketplace/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0",
     "axios": "^1.19.0",
