@@ -4,6 +4,8 @@
 [![x402 Protocol](https://img.shields.io/badge/Protocol-x402_v2-green)](https://ai-data-marketplace-1042299154756.us-central1.run.app/.well-known/x402)
 [![x402scan](https://img.shields.io/badge/x402scan-43_resources-00c2ff)](https://www.x402scan.com/server/8dd63536-ba25-40f4-b36a-7d05ed18d007)
 [![Model Context Protocol](https://img.shields.io/badge/MCP-Server-purple)](https://modelcontextprotocol.io)
+[![npm](https://img.shields.io/npm/v/dopaminedesk-ai-data-marketplace-mcp?label=npm)](https://www.npmjs.com/package/dopaminedesk-ai-data-marketplace-mcp)
+[![Smithery](https://img.shields.io/badge/Smithery-live-00c853)](https://smithery.ai/server/jblaz6335/dopaminedesk-agent-data-arcade)
 
 Model Context Protocol (MCP) server and machine-to-machine data API gateway powered by the **x402 Payment Protocol** on **Base Mainnet**.
 
@@ -29,6 +31,13 @@ Claude Desktop or another stdio-compatible MCP client:
 ```
 
 Official MCP Registry name: `io.github.jblaz6335/ai-data-marketplace`.
+
+## Published Distribution
+
+- **npm:** [`dopaminedesk-ai-data-marketplace-mcp`](https://www.npmjs.com/package/dopaminedesk-ai-data-marketplace-mcp), version 2.2.0
+- **Official MCP Registry:** [`io.github.jblaz6335/ai-data-marketplace`](https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.jblaz6335%2Fai-data-marketplace), active
+- **Smithery:** [`jblaz6335/dopaminedesk-agent-data-arcade`](https://smithery.ai/server/jblaz6335/dopaminedesk-agent-data-arcade), live
+- **PulseMCP:** queued for ingestion through its Official MCP Registry feed
 
 The production catalog contains **43 capability-audited billable tools** and **86 total public catalog entries**. The billable set consists of 36 live-source tools, 1 verified government-contract snapshot, 5 input-sensitive processors, and 1 verified payment-credit service. Of all public entries, 46 are operational and 40 are labeled preview-only fixtures. Every API response identifies its data mode, availability, billing state, and backing source.
 

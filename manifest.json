@@ -1,0 +1,51 @@
+{
+  "manifest_version": "0.3",
+  "name": "dopaminedesk-agent-data-arcade",
+  "display_name": "DopamineDesk Agent Data Arcade",
+  "version": "2.2.0",
+  "description": "Discover and call 43 audited pay-per-use data and security products with x402 payments on Base.",
+  "long_description": "A local MCP adapter for the DopamineDesk Agent Data Arcade. It discovers the current live catalog, exposes only operational billable products as MCP tools, supports free previews, and returns the complete x402 v2 payment challenge for buyer-side signing.",
+  "author": {
+    "name": "DopamineDesk",
+    "url": "https://ai-data-marketplace-1042299154756.us-central1.run.app/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jblaz6335/mcp-server-aidatamarketplace.git"
+  },
+  "homepage": "https://ai-data-marketplace-1042299154756.us-central1.run.app/",
+  "documentation": "https://ai-data-marketplace-1042299154756.us-central1.run.app/openapi.json",
+  "support": "https://github.com/jblaz6335/mcp-server-aidatamarketplace/issues",
+  "server": {
+    "type": "node",
+    "entry_point": "index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/index.js"],
+      "env": {
+        "MARKETPLACE_URL": "${user_config.marketplace_url}"
+      }
+    }
+  },
+  "tools_generated": true,
+  "keywords": ["data", "security", "x402", "payments", "base", "usdc", "ai-agents"],
+  "license": "MIT",
+  "privacy_policies": [
+    "https://ai-data-marketplace-1042299154756.us-central1.run.app/privacy"
+  ],
+  "user_config": {
+    "marketplace_url": {
+      "type": "string",
+      "title": "Marketplace URL",
+      "description": "Public DopamineDesk marketplace origin used for catalog discovery and product calls.",
+      "default": "https://ai-data-marketplace-1042299154756.us-central1.run.app",
+      "required": true
+    }
+  },
+  "compatibility": {
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": {
+      "node": ">=20.0.0"
+    }
+  }
+}
