@@ -1,4 +1,4 @@
-# AI Data Marketplace MCP Server
+# DopamineDesk x402 Marketplace MCP Server
 
 [![Base Mainnet](https://img.shields.io/badge/Network-Base_Mainnet-blue)](https://base.org)
 [![x402 Protocol](https://img.shields.io/badge/Protocol-x402_v2-green)](https://ai-data-marketplace-1042299154756.us-central1.run.app/.well-known/x402)
@@ -32,7 +32,7 @@ Claude Desktop or another stdio-compatible MCP client:
 
 ### Optional one-call purchasing
 
-Version 2.3.0 can complete the x402 challenge, authorization, retry, and settlement automatically. The buyer key stays inside the buyer's local MCP process; the marketplace never receives it. Use a dedicated low-balance Base wallet, not a primary wallet.
+Version 2.3.1 can complete the x402 challenge, authorization, retry, and settlement automatically. The buyer key stays inside the buyer's local MCP process; the marketplace never receives it. Use a dedicated low-balance Base wallet, not a primary wallet.
 
 ```json
 {
@@ -56,12 +56,12 @@ Official MCP Registry name: `io.github.jblaz6335/ai-data-marketplace`.
 
 ## Published Distribution
 
-- **npm:** [`dopaminedesk-ai-data-marketplace-mcp`](https://www.npmjs.com/package/dopaminedesk-ai-data-marketplace-mcp), version 2.3.0
+- **npm:** [`dopaminedesk-ai-data-marketplace-mcp`](https://www.npmjs.com/package/dopaminedesk-ai-data-marketplace-mcp), version 2.3.1
 - **Official MCP Registry:** [`io.github.jblaz6335/ai-data-marketplace`](https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.jblaz6335%2Fai-data-marketplace), active
 - **Smithery:** [`jblaz6335/dopaminedesk-agent-data-arcade`](https://smithery.ai/server/jblaz6335/dopaminedesk-agent-data-arcade), live
 - **PulseMCP:** queued for ingestion through its Official MCP Registry feed
 
-The production catalog contains **43 capability-audited billable tools** and **86 total public catalog entries**. The billable set consists of 36 live-source tools, 1 verified government-contract snapshot, 5 input-sensitive processors, and 1 verified payment-credit service. Of all public entries, 46 are operational and 40 are labeled preview-only fixtures. Every API response identifies its data mode, availability, billing state, and backing source.
+The production catalog contains **44 capability-audited billable tools** and **87 total public catalog entries**. The billable set consists of 37 live-source tools, 1 verified government-contract snapshot, 5 input-sensitive processors, and 1 verified payment-credit service. Of all public entries, 47 are operational and 40 are labeled preview-only fixtures. Every API response identifies its data mode, availability, billing state, and backing source.
 
 The MCP adapter builds its tool list from the production OpenAPI document. It does not maintain a stale hand-written endpoint list.
 
@@ -76,7 +76,7 @@ The MCP adapter builds its tool list from the production OpenAPI document. It do
 - **x402 Protocol Manifest:** `https://ai-data-marketplace-1042299154756.us-central1.run.app/.well-known/x402`
 - **x402scan Marketplace Page:** `https://www.x402scan.com/server/8dd63536-ba25-40f4-b36a-7d05ed18d007`
 
-The paid OpenAPI contract contains exactly the 43 billable products. The broader catalog endpoint retains 40 clearly labeled preview fixtures for evaluation, but those routes do not appear as purchasable OpenAPI products.
+The paid OpenAPI contract contains exactly the 44 billable products. The broader catalog endpoint retains 40 clearly labeled preview fixtures for evaluation, but those routes do not appear as purchasable OpenAPI products.
 
 ---
 
@@ -94,6 +94,7 @@ curl -s "https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/ca
 
 | Endpoint | Data Type / Description | Settlement (USDC) |
 | :--- | :--- | :--- |
+| `GET /api/v1/website_due_diligence` | Composite DNS, RDAP, TLS, page, and technology evidence | **0.15 USDC** |
 | `GET /api/v1/candles` | Live CoinGecko market price history | **0.05 USDC** |
 | `GET /api/v1/stock_quotes` | Live market quote snapshot | **0.05 USDC** |
 | `GET /api/v1/sec_edgar_filings` | Official SEC filing metadata and links | **0.10 USDC** |
@@ -122,7 +123,7 @@ Every billable product uses x402 v2 exact payments through the PayAI facilitator
 
 The MCP adapter returns both the decoded challenge and the original `payment_required_header`. A compatible buyer can sign that challenge and retry the same tool with the `payment_signature` input. Buyers who configure the optional capped local wallet can instead set `auto_pay: true` and complete the entire flow in one tool call. Successful responses include `payment_response_header`.
 
-The server advertises Bazaar discovery schemas for all 43 products. PayAI handles verification and settlement; USDC is delivered directly to the configured marketplace wallet.
+The server advertises Bazaar discovery schemas for all 44 products. PayAI handles verification and settlement; USDC is delivered directly to the configured marketplace wallet.
 
 ## Legacy Integration Client (`client.py`)
 
