@@ -1,20 +1,21 @@
 {
   "name": "dopaminedesk-ai-data-marketplace-mcp",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "mcpName": "io.github.jblaz6335/ai-data-marketplace",
-  "description": "MCP adapter for 43 capability-audited, pay-per-use data and security products using x402 v2 on Base.",
+  "description": "MCP adapter with capped one-call x402 auto-pay for 43 capability-audited data and security products on Base.",
   "main": "index.js",
   "bin": {
     "dopaminedesk-mcp": "index.js"
   },
   "files": [
+    "autopay.js",
     "index.js",
     "README.md",
     "PAYMENT_FLOW.md",
     "LICENSE"
   ],
   "scripts": {
-    "test": "node --check index.js"
+    "test": "node --check index.js && node --test test/*.test.mjs"
   },
   "keywords": [
     "mcp",
@@ -45,7 +46,10 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0",
+    "@x402/evm": "^2.20.0",
+    "@x402/fetch": "^2.20.0",
     "axios": "^1.19.0",
-    "dotenv": "^17.4.2"
+    "dotenv": "^17.4.2",
+    "viem": "^2.55.10"
   }
 }

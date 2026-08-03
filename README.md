@@ -30,11 +30,33 @@ Claude Desktop or another stdio-compatible MCP client:
 }
 ```
 
+### Optional one-call purchasing
+
+Version 2.3.0 can complete the x402 challenge, authorization, retry, and settlement automatically. The buyer key stays inside the buyer's local MCP process; the marketplace never receives it. Use a dedicated low-balance Base wallet, not a primary wallet.
+
+```json
+{
+  "mcpServers": {
+    "dopaminedesk-data-arcade": {
+      "command": "npx",
+      "args": ["-y", "dopaminedesk-ai-data-marketplace-mcp"],
+      "env": {
+        "X402_AUTO_PAY": "true",
+        "X402_EVM_PRIVATE_KEY": "YOUR_DEDICATED_BUYER_WALLET_KEY",
+        "X402_MAX_PAYMENT_USDC": "0.25"
+      }
+    }
+  }
+}
+```
+
+Call any product with `auto_pay: true`. The adapter refuses a price above `X402_MAX_PAYMENT_USDC`, refuses conflicting payment inputs, and never falls back to an uncapped purchase. Without these environment variables, preview and manual-signature behavior remains unchanged.
+
 Official MCP Registry name: `io.github.jblaz6335/ai-data-marketplace`.
 
 ## Published Distribution
 
-- **npm:** [`dopaminedesk-ai-data-marketplace-mcp`](https://www.npmjs.com/package/dopaminedesk-ai-data-marketplace-mcp), version 2.2.0
+- **npm:** [`dopaminedesk-ai-data-marketplace-mcp`](https://www.npmjs.com/package/dopaminedesk-ai-data-marketplace-mcp), version 2.3.0
 - **Official MCP Registry:** [`io.github.jblaz6335/ai-data-marketplace`](https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.jblaz6335%2Fai-data-marketplace), active
 - **Smithery:** [`jblaz6335/dopaminedesk-agent-data-arcade`](https://smithery.ai/server/jblaz6335/dopaminedesk-agent-data-arcade), live
 - **PulseMCP:** queued for ingestion through its Official MCP Registry feed
@@ -98,7 +120,7 @@ Every billable product uses x402 v2 exact payments through the PayAI facilitator
 3. Retry with the resulting `PAYMENT-SIGNATURE` header.
 4. On success, read the settled transaction details from `PAYMENT-RESPONSE`.
 
-The MCP adapter returns both the decoded challenge and the original `payment_required_header`. A compatible buyer can sign that challenge and retry the same tool with the `payment_signature` input. Successful responses include `payment_response_header`.
+The MCP adapter returns both the decoded challenge and the original `payment_required_header`. A compatible buyer can sign that challenge and retry the same tool with the `payment_signature` input. Buyers who configure the optional capped local wallet can instead set `auto_pay: true` and complete the entire flow in one tool call. Successful responses include `payment_response_header`.
 
 The server advertises Bazaar discovery schemas for all 43 products. PayAI handles verification and settlement; USDC is delivered directly to the configured marketplace wallet.
 
