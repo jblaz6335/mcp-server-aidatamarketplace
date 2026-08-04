@@ -2,17 +2,17 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.jblaz6335/ai-data-marketplace",
   "title": "DopamineDesk x402 Marketplace",
-  "description": "Call 56 audited x402 data, verification, and security products with capped auto-pay on Base.",
+  "description": "Call 61 audited x402 data, verification, and security products with capped auto-pay on Base.",
   "repository": {
     "url": "https://github.com/jblaz6335/mcp-server-aidatamarketplace",
     "source": "github"
   },
-  "version": "2.5.0",
+  "version": "2.6.0",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "dopaminedesk-ai-data-marketplace-mcp",
-      "version": "2.5.0",
+      "version": "2.6.0",
       "transport": {
         "type": "stdio"
       }
