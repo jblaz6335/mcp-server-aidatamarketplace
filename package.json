@@ -1,8 +1,8 @@
 {
   "name": "dopaminedesk-ai-data-marketplace-mcp",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "mcpName": "io.github.jblaz6335/ai-data-marketplace",
-  "description": "MCP adapter with capped one-call x402 auto-pay for 65 capability-audited data, verification, and security products on Base.",
+  "description": "MCP adapter with capped one-call x402 auto-pay for 66 capability-audited data, verification, and security products on Base.",
   "main": "index.js",
   "bin": {
     "dopaminedesk-mcp": "index.js"

@@ -6,7 +6,7 @@ import axios from 'axios';
 import { assertAutoPayAllowed, createAutoPayRuntime } from './autopay.js';
 
 const ORIGIN = process.env.MARKETPLACE_URL || 'https://ai-data-marketplace-1042299154756.us-central1.run.app';
-const server = new Server({ name: 'dopaminedesk-ai-data-marketplace', version: '2.7.0' }, { capabilities: { tools: {} } });
+const server = new Server({ name: 'dopaminedesk-ai-data-marketplace', version: '2.8.0' }, { capabilities: { tools: {} } });
 const CACHE_TTL_MS = 5 * 60 * 1000;
 let catalogCache = null;
 let catalogCachedAt = 0;
