@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.jblaz6335/ai-data-marketplace",
   "title": "DopamineDesk x402 Marketplace",
-  "description": "Call 47 audited, pay-per-use data and security products with capped one-call x402 v2 purchasing on Base.",
+  "description": "Call 47 audited x402 data and security products with capped auto-pay on Base.",
   "repository": {
     "url": "https://github.com/jblaz6335/mcp-server-aidatamarketplace",
     "source": "github"
