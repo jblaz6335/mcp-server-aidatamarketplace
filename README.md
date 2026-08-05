@@ -40,7 +40,7 @@ Claude Desktop or another stdio-compatible MCP client:
 
 ### Optional one-call purchasing
 
-Version 2.8.2 can complete the x402 challenge, authorization, retry, and settlement automatically. The buyer key stays inside the buyer's local MCP process; the marketplace never receives it. Use a dedicated low-balance Base wallet, not a primary wallet.
+Version 2.8.3 can complete the x402 challenge, authorization, retry, and settlement automatically. The buyer key stays inside the buyer's local MCP process; the marketplace never receives it. Use a dedicated low-balance Base wallet, not a primary wallet.
 
 ```json
 {
@@ -64,7 +64,7 @@ Official MCP Registry name: `io.github.jblaz6335/ai-data-marketplace`.
 
 ## Published Distribution
 
-- **npm:** [`dopaminedesk-ai-data-marketplace-mcp`](https://www.npmjs.com/package/dopaminedesk-ai-data-marketplace-mcp), version 2.8.2
+- **npm:** [`dopaminedesk-ai-data-marketplace-mcp`](https://www.npmjs.com/package/dopaminedesk-ai-data-marketplace-mcp), version 2.8.3
 - **Official MCP Registry:** [`io.github.jblaz6335/ai-data-marketplace`](https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.jblaz6335%2Fai-data-marketplace), active
 - **Smithery:** [`jblaz6335/dopaminedesk-agent-data-arcade`](https://smithery.ai/server/jblaz6335/dopaminedesk-agent-data-arcade), live
 - **PulseMCP:** queued for ingestion through its Official MCP Registry feed
