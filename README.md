@@ -9,6 +9,14 @@
 
 Model Context Protocol (MCP) server and machine-to-machine data API gateway powered by the **x402 Payment Protocol** on **Base Mainnet**.
 
+**No API key. No account. No subscription.** 66 live-source products — EVM chain reads, stock quotes and SEC filings, FX rates, token security audits, OFAC sanctions screening, LEI and VIN lookups, and more — priced from **$0.001** per call and paid per request in USDC.
+
+**Try any product free before you pay.** Every billable route accepts `?preview=true` and returns the real deliverable from the real live source, so an agent can verify the data is worth buying first:
+
+```bash
+curl "https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/evm_block_number?preview=true"
+```
+
 ## Install
 
 Run directly with npm:

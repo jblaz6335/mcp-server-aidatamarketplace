@@ -1,8 +1,8 @@
 {
   "name": "dopaminedesk-ai-data-marketplace-mcp",
-  "version": "2.8.0",
+  "version": "2.8.1",
   "mcpName": "io.github.jblaz6335/ai-data-marketplace",
-  "description": "MCP adapter with capped one-call x402 auto-pay for 66 capability-audited data, verification, and security products on Base.",
+  "description": "66 pay-per-call data, verification, and security APIs for AI agents. No API key, no account, free live previews. Pay per request in USDC on Base from $0.001 via x402, with capped one-call auto-pay.",
   "main": "index.js",
   "bin": {
     "dopaminedesk-mcp": "index.js"
@@ -25,7 +25,18 @@
     "base",
     "usdc",
     "data-api",
-    "security-tools"
+    "security-tools",
+    "no-api-key",
+    "pay-per-call",
+    "micropayments",
+    "agent-commerce",
+    "agentic-commerce",
+    "onchain-data",
+    "evm-rpc",
+    "sec-filings",
+    "stock-api",
+    "sanctions-screening",
+    "free-preview"
   ],
   "author": "DopamineDesk",
   "license": "MIT",
