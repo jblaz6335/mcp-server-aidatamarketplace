@@ -2,14 +2,14 @@
 
 [![Base Mainnet](https://img.shields.io/badge/Network-Base_Mainnet-blue)](https://base.org)
 [![x402 Protocol](https://img.shields.io/badge/Protocol-x402_v2-green)](https://ai-data-marketplace-1042299154756.us-central1.run.app/.well-known/x402)
-[![x402scan](https://img.shields.io/badge/x402scan-66_resources-00c2ff)](https://www.x402scan.com/server/8dd63536-ba25-40f4-b36a-7d05ed18d007)
+[![x402scan](https://img.shields.io/badge/x402scan-live_catalog-00c2ff)](https://www.x402scan.com/server/8dd63536-ba25-40f4-b36a-7d05ed18d007)
 [![Model Context Protocol](https://img.shields.io/badge/MCP-Server-purple)](https://modelcontextprotocol.io)
 [![npm](https://img.shields.io/npm/v/dopaminedesk-ai-data-marketplace-mcp?label=npm)](https://www.npmjs.com/package/dopaminedesk-ai-data-marketplace-mcp)
 [![Smithery](https://img.shields.io/badge/Smithery-live-00c853)](https://smithery.ai/server/jblaz6335/dopaminedesk-agent-data-arcade)
 
 Model Context Protocol (MCP) server and machine-to-machine data API gateway powered by the **x402 Payment Protocol** on **Base Mainnet**.
 
-**No API key. No account. No subscription.** 66 live-source products — EVM chain reads, stock quotes and SEC filings, FX rates, token security audits, OFAC sanctions screening, LEI and VIN lookups, and more — priced from **$0.001** per call and paid per request in USDC.
+**No API key. No account. No subscription.** A live-source catalog of pay-per-call products — EVM chain reads, stock quotes and SEC filings, FX rates, token security audits, OFAC sanctions screening, LEI and VIN lookups, and more — priced from **$0.001** per call and paid per request in USDC.
 
 **Try any product free before you pay.** Every billable route accepts `?preview=true` and returns the real deliverable from the real live source, so an agent can verify the data is worth buying first:
 
@@ -40,7 +40,7 @@ Claude Desktop or another stdio-compatible MCP client:
 
 ### Optional one-call purchasing
 
-Version 2.8.0 can complete the x402 challenge, authorization, retry, and settlement automatically. The buyer key stays inside the buyer's local MCP process; the marketplace never receives it. Use a dedicated low-balance Base wallet, not a primary wallet.
+Version 2.8.2 can complete the x402 challenge, authorization, retry, and settlement automatically. The buyer key stays inside the buyer's local MCP process; the marketplace never receives it. Use a dedicated low-balance Base wallet, not a primary wallet.
 
 ```json
 {
@@ -64,12 +64,12 @@ Official MCP Registry name: `io.github.jblaz6335/ai-data-marketplace`.
 
 ## Published Distribution
 
-- **npm:** [`dopaminedesk-ai-data-marketplace-mcp`](https://www.npmjs.com/package/dopaminedesk-ai-data-marketplace-mcp), version 2.8.0
+- **npm:** [`dopaminedesk-ai-data-marketplace-mcp`](https://www.npmjs.com/package/dopaminedesk-ai-data-marketplace-mcp), version 2.8.2
 - **Official MCP Registry:** [`io.github.jblaz6335/ai-data-marketplace`](https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.jblaz6335%2Fai-data-marketplace), active
 - **Smithery:** [`jblaz6335/dopaminedesk-agent-data-arcade`](https://smithery.ai/server/jblaz6335/dopaminedesk-agent-data-arcade), live
 - **PulseMCP:** queued for ingestion through its Official MCP Registry feed
 
-The production catalog contains **66 capability-audited billable tools** and **108 total public catalog entries**. The billable set consists of 59 live-source tools, 1 verified government-contract snapshot, 5 input-sensitive processors, and 1 verified payment-credit service. Of all public entries, 69 are operational and 39 are labeled preview-only fixtures. Every API response identifies its data mode, availability, billing state, and backing source.
+Every product in the catalog is billable and backed by a declared live source, a verified snapshot, or a transparent deterministic processor - there are no sample fixtures. Every API response identifies its data mode, availability, billing state, and backing source. Counts and prices always come from the live OpenAPI document, never from this README.
 
 The newest demand-led lanes add low-cost atomic calls and answer-ready bundles for:
 
@@ -93,7 +93,7 @@ The MCP adapter builds its tool list from the production OpenAPI document. It do
 - **x402 Protocol Manifest:** `https://ai-data-marketplace-1042299154756.us-central1.run.app/.well-known/x402`
 - **x402scan Marketplace Page:** `https://www.x402scan.com/server/8dd63536-ba25-40f4-b36a-7d05ed18d007`
 
-The paid OpenAPI contract contains exactly the 66 billable products. The broader catalog endpoint retains 39 clearly labeled preview fixtures for evaluation, but those routes do not appear as purchasable OpenAPI products.
+The paid OpenAPI contract contains exactly the billable products - nothing more. Withdrawn concepts return HTTP 404 rather than lingering as unpayable routes.
 
 ---
 
@@ -107,41 +107,27 @@ curl -s "https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/ca
 
 ---
 
-## Endpoints & Pricing Catalog
+## The Loop Lane - what agents call every iteration
 
-| Endpoint | Data Type / Description | Settlement (USDC) |
+| Endpoint | What it reads | Settlement (USDC) |
 | :--- | :--- | :--- |
-| `GET /api/v1/evm_block_number` | Current Base, Ethereum, or Arbitrum block height | **0.001 USDC** |
-| `GET /api/v1/evm_block` | Live block header and bounded transaction hashes | **0.002 USDC** |
-| `GET /api/v1/evm_transaction` | Normalized transaction lookup by hash | **0.004 USDC** |
-| `GET /api/v1/evm_receipt` | Execution status, gas, and event logs | **0.003 USDC** |
-| `GET /api/v1/evm_nonce` | Confirmed or pending account nonce | **0.0015 USDC** |
-| `GET /api/v1/evm_balance` | Native balance on Base, Ethereum, or Arbitrum | **0.001 USDC** |
-| `GET /api/v1/evm_code` | Deployed bytecode, account type, size, and hash | **0.0015 USDC** |
-| `POST /api/v1/evm_call` | Bounded read-only contract call without broadcast | **0.002 USDC** |
-| `GET /api/v1/evm_logs` | Bounded contract-event retrieval with optional topic filter | **0.003 USDC** |
-| `GET /api/v1/website_due_diligence` | Composite DNS, RDAP, TLS, page, and technology evidence | **0.15 USDC** |
-| `GET /api/v1/shopify_store_lookup` | Live public Shopify products, variants, prices, availability, images, and UCP capabilities | **0.01 USDC** |
-| `GET /api/v1/candles` | Live CoinGecko market price history | **0.05 USDC** |
-| `GET /api/v1/stock_quotes` | Live market quote snapshot | **0.05 USDC** |
-| `GET /api/v1/sec_edgar_filings` | Official SEC filing metadata and links | **0.10 USDC** |
-| `GET /api/v1/token_audit` | Live GoPlus token security signals | **0.10 USDC** |
-| `POST /api/v1/tx_simulator` | Read-only EVM call and gas simulation | **0.10 USDC** |
-| `GET /api/v1/weather_forecast` | Live Open-Meteo forecast | **0.02 USDC** |
-| `POST /api/v1/scrape_md` | Public page to bounded Markdown-like text | **0.01 USDC** |
-| `POST /api/v1/enrich_leads` | Live Clearbit company suggestions | **0.10 USDC** |
-| `GET /api/v1/leads` | Live official-city business registration prospects | **0.05 USDC** |
-| `GET /api/v1/contracts` | 100 API-verified USAspending award records | **0.10 USDC** |
-| `POST /api/v1/summarize` | Deterministic extractive summarization | **0.02 USDC** |
-| `POST /api/v1/translate` | Live MyMemory translation | **0.02 USDC** |
+| `GET /api/v1/evm_balance` | Native balance on Base, Ethereum, or Arbitrum | **0.001** |
+| `GET /api/v1/evm_block_number` | Current block height | **0.001** |
+| `POST /api/v1/evm_call` | Bounded read-only contract call | **0.002** |
+| `GET /api/v1/evm_receipt` | Execution status, gas, and event logs | **0.003** |
+| `GET /api/v1/evm_logs` | Contract events with optional topic filter | **0.003** |
+| `POST /api/v1/scrape_md` | Public page to bounded Markdown | **0.003** |
+| `GET /api/v1/url_metadata` | Title, description, OG image, status | **0.003** |
+| `GET /api/v1/whale_alerts` | Large ERC-20 transfers from recent blocks | **0.005** |
+| `GET /api/v1/pwned_check` | HIBP k-anonymity breached-hash check | **0.005** |
 
-See the production x402 manifest or OpenAPI document for the complete live list. Preview-only fixtures return `TOOL_NOT_FOR_SALE` without `preview=true`.
+Beyond the loop lane: market data, SEC filings, sanctions screening, VIN and entity verification, token security, and composite research briefs. The complete current list with live prices is always the OpenAPI document - this README deliberately does not duplicate it.
 
 ---
 
 ## Standard x402 v2 Payment Flow
 
-Every billable product uses x402 v2 exact payments through the PayAI facilitator on Base mainnet:
+Every billable product uses x402 v2 exact payments on Base mainnet, settled through the Coinbase CDP facilitator:
 
 1. Call a paid endpoint without payment and read the base64-encoded `PAYMENT-REQUIRED` response header.
 2. Use an x402 v2 client and buyer wallet to sign the exact USDC authorization.
@@ -150,7 +136,7 @@ Every billable product uses x402 v2 exact payments through the PayAI facilitator
 
 The MCP adapter returns both the decoded challenge and the original `payment_required_header`. A compatible buyer can sign that challenge and retry the same tool with the `payment_signature` input. Buyers who configure the optional capped local wallet can instead set `auto_pay: true` and complete the entire flow in one tool call. Successful responses include `payment_response_header`.
 
-The server advertises Bazaar-compatible discovery schemas for all 66 products while keeping seller-owned OpenAPI, MCP, sitemap, and agent-purchase documents canonical. PayAI handles verification and settlement; USDC is delivered directly to the configured marketplace wallet.
+The server advertises Bazaar-compatible discovery schemas on every 402 challenge while keeping seller-owned OpenAPI, MCP, sitemap, and agent-purchase documents canonical. The Coinbase CDP facilitator handles verification and settlement; USDC is delivered directly to the configured marketplace wallet.
 
 ## Legacy Integration Client (`client.py`)
 
