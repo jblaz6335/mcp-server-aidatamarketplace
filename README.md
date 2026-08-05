@@ -11,7 +11,7 @@ Model Context Protocol (MCP) server and machine-to-machine data API gateway powe
 
 **No API key. No account. No subscription.** A live-source catalog of pay-per-call products — EVM chain reads, stock quotes and SEC filings, FX rates, token security audits, OFAC sanctions screening, LEI and VIN lookups, and more — priced from **$0.001** per call and paid per request in USDC.
 
-**Try any product free before you pay.** Every billable route accepts `?preview=true` and returns the real deliverable from the real live source, so an agent can verify the data is worth buying first:
+**Try any product free before you pay.** Every billable route accepts `?preview=true` and returns a bounded sample of the real deliverable from the real live source, so an agent can verify the data is worth buying first. Previews are for evaluation: long lists and long fields are clipped, every response says whether it was truncated, and short results come back complete.
 
 ```bash
 curl "https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/evm_block_number?preview=true"
@@ -99,7 +99,7 @@ The paid OpenAPI contract contains exactly the billable products - nothing more.
 
 ## Data Schema Inspection Mode
 
-Client applications and autonomous agents can evaluate response schemas and data quality without executing a paid transaction by adding the `preview=true` parameter:
+Client applications and autonomous agents can evaluate response schemas and data quality without executing a paid transaction by adding the `preview=true` parameter. The preview is a bounded sample of the same live result, carries `preview_truncated` and a `purchase` block describing the paid call, and is rate limited per tool so it stays an evaluation step rather than a free tier:
 
 ```bash
 curl -s "https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/candles?preview=true&ticker=bitcoin"
