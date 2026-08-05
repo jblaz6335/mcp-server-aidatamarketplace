@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.jblaz6335/ai-data-marketplace",
   "title": "DopamineDesk x402 Marketplace",
-  "description": "66 pay-per-call data, verification, and security APIs. No API key or account, free live previews, from $0.001 per call in USDC on Base.",
+  "description": "66 pay-per-call APIs. No API key, free live previews, from $0.001 per call in USDC on Base.",
   "repository": {
     "url": "https://github.com/jblaz6335/mcp-server-aidatamarketplace",
     "source": "github"
