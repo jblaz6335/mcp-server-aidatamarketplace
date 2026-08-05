@@ -7,12 +7,12 @@
     "url": "https://github.com/jblaz6335/mcp-server-aidatamarketplace",
     "source": "github"
   },
-  "version": "2.8.2",
+  "version": "2.8.3",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "dopaminedesk-ai-data-marketplace-mcp",
-      "version": "2.8.2",
+      "version": "2.8.3",
       "transport": {
         "type": "stdio"
       }
