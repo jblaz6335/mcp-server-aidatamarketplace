@@ -6,14 +6,16 @@ x402 marketplace. The marketplace itself advertises this policy from
 
 ## Reporting a vulnerability
 
-Open an issue titled **"Security contact request"** containing nothing but a request
-for a private channel. Do not put the vulnerability details in it.
+Use GitHub private vulnerability reporting:
+**[Report a vulnerability](https://github.com/jblaz6335/mcp-server-aidatamarketplace/security/advisories/new)**
 
-**Do not include in a public issue:** reproduction steps, proof-of-concept code,
-private keys, wallet seed phrases, API keys, transaction hashes tied to a real
-wallet, or any payment credential.
+That opens a private advisory visible only to you and the maintainer. Put the full
+details there - reproduction steps and proof-of-concept code are welcome in a private
+advisory.
 
-We will reply on the issue with a private channel and take the details there.
+**Do not open a public issue for a security report**, and never include private keys,
+wallet seed phrases, API keys, or payment credentials anywhere, including a private
+advisory. We never need them to reproduce a finding.
 
 ## What this software does and does not hold
 
