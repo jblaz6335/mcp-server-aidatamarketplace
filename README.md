@@ -6,10 +6,11 @@
 [![Model Context Protocol](https://img.shields.io/badge/MCP-Server-purple)](https://modelcontextprotocol.io)
 [![npm](https://img.shields.io/npm/v/dopaminedesk-ai-data-marketplace-mcp?label=npm)](https://www.npmjs.com/package/dopaminedesk-ai-data-marketplace-mcp)
 [![Smithery](https://img.shields.io/badge/Smithery-live-00c853)](https://smithery.ai/server/jblaz6335/dopaminedesk-agent-data-arcade)
+[![Tests](https://github.com/jblaz6335/mcp-server-aidatamarketplace/actions/workflows/test.yml/badge.svg)](https://github.com/jblaz6335/mcp-server-aidatamarketplace/actions/workflows/test.yml)
 
 Model Context Protocol (MCP) server and machine-to-machine data API gateway powered by the **x402 Payment Protocol** on **Base Mainnet**.
 
-**No API key. No account. No subscription.** A live-source catalog of pay-per-call products — EVM chain reads, stock quotes and SEC filings, FX rates, token security audits, OFAC sanctions screening, LEI and VIN lookups, and more — priced from **$0.001** per call and paid per request in USDC.
+**No API key. No account. No subscription.** The catalog exposes live-source, pay-per-call products including EVM chain reads, stock quotes and SEC filings, FX rates, token security audits, OFAC sanctions screening, and LEI and VIN lookups. Calls start at **$0.001** and settle per request in USDC.
 
 **Try any product free before you pay.** Every billable route accepts `?preview=true` and returns a bounded sample of the real deliverable from the real live source, so an agent can verify the data is worth buying first. Previews are for evaluation: long lists and long fields are clipped, every response says whether it was truncated, and short results come back complete.
 
@@ -25,7 +26,7 @@ Run directly with npm:
 npx -y dopaminedesk-ai-data-marketplace-mcp
 ```
 
-Claude Desktop or another stdio-compatible MCP client:
+Any stdio-compatible MCP client:
 
 ```json
 {
@@ -61,6 +62,25 @@ Version 2.8.3 can complete the x402 challenge, authorization, retry, and settlem
 Call any product with `auto_pay: true`. The adapter refuses a price above `X402_MAX_PAYMENT_USDC`, refuses conflicting payment inputs, and never falls back to an uncapped purchase. Without these environment variables, preview and manual-signature behavior remains unchanged.
 
 Official MCP Registry name: `io.github.jblaz6335/ai-data-marketplace`.
+
+## Engineering Scope
+
+I built this adapter around a few constraints that matter in machine-to-machine commerce:
+
+- the production OpenAPI contract is the source of truth for tool discovery;
+- buyers can inspect bounded live previews before authorizing payment;
+- automatic purchasing is opt-in, locally signed, and protected by a hard per-call cap;
+- conflicting, malformed, disabled, and over-cap payment attempts fail closed;
+- settlement details are returned with the deliverable so buyers can reconcile every call.
+
+The repository contains the MCP transport, x402 client flow, legacy integration helper, registry manifests, container configuration, and regression tests for the payment safety boundaries.
+
+Run the verification suite locally:
+
+```bash
+npm ci
+npm test
+```
 
 ## Published Distribution
 
