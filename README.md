@@ -3,6 +3,7 @@
 [![Base Mainnet](https://img.shields.io/badge/Network-Base_Mainnet-blue)](https://base.org)
 [![x402 Protocol](https://img.shields.io/badge/Protocol-x402_v2-green)](https://ai-data-marketplace-1042299154756.us-central1.run.app/.well-known/x402)
 [![x402scan](https://img.shields.io/badge/x402scan-live_catalog-00c2ff)](https://www.x402scan.com/server/8dd63536-ba25-40f4-b36a-7d05ed18d007)
+[![Public verification](https://img.shields.io/badge/Public_verification-open-86f7c5)](https://ai-data-marketplace-1042299154756.us-central1.run.app/verification)
 [![Model Context Protocol](https://img.shields.io/badge/MCP-Server-purple)](https://modelcontextprotocol.io)
 [![npm](https://img.shields.io/npm/v/dopaminedesk-ai-data-marketplace-mcp?label=npm)](https://www.npmjs.com/package/dopaminedesk-ai-data-marketplace-mcp)
 [![Smithery](https://img.shields.io/badge/Smithery-live-00c853)](https://smithery.ai/server/jblaz6335/dopaminedesk-agent-data-arcade)
@@ -62,6 +63,8 @@ Version 2.8.3 can complete the x402 challenge, authorization, retry, and settlem
 Call any product with `auto_pay: true`. The adapter refuses a price above `X402_MAX_PAYMENT_USDC`, refuses conflicting payment inputs, and never falls back to an uncapped purchase. Without these environment variables, preview and manual-signature behavior remains unchanged.
 
 Official MCP Registry name: `io.github.jblaz6335/ai-data-marketplace`.
+
+Every marketplace, payment, directory, and package claim can be checked from the [public verification hub](https://ai-data-marketplace-1042299154756.us-central1.run.app/verification). Agents can read the same evidence as JSON from [the machine verification record](https://ai-data-marketplace-1042299154756.us-central1.run.app/.well-known/marketplace-verification.json).
 
 ## Engineering Scope
 

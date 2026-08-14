@@ -2,8 +2,8 @@
   "manifest_version": "0.3",
   "name": "dopaminedesk-agent-data-arcade",
   "display_name": "DopamineDesk x402 Marketplace",
-  "version": "2.8.0",
-  "description": "Discover and call 66 audited pay-per-use products with optional capped x402 auto-pay on Base.",
+  "version": "2.8.3",
+  "description": "Discover and call 69 audited pay-per-use products with optional capped x402 auto-pay on Base.",
   "long_description": "A local MCP adapter for the DopamineDesk x402 Marketplace. It discovers the current live catalog, exposes only operational billable products as MCP tools, supports free previews and manual signing, and optionally completes a one-call x402 purchase with a dedicated local buyer wallet and a strict per-request spending cap.",
   "author": {
     "name": "DopamineDesk",
@@ -14,7 +14,7 @@
     "url": "https://github.com/jblaz6335/mcp-server-aidatamarketplace.git"
   },
   "homepage": "https://ai-data-marketplace-1042299154756.us-central1.run.app/",
-  "documentation": "https://ai-data-marketplace-1042299154756.us-central1.run.app/openapi.json",
+  "documentation": "https://ai-data-marketplace-1042299154756.us-central1.run.app/verification",
   "support": "https://github.com/jblaz6335/mcp-server-aidatamarketplace/issues",
   "server": {
     "type": "node",

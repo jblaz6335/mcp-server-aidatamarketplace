@@ -1,6 +1,6 @@
 # x402 payment flow
 
-This Model Context Protocol server discovers and exposes the 66 currently billable DopamineDesk marketplace tools from the production OpenAPI document.
+This Model Context Protocol server discovers and exposes the 69 currently billable DopamineDesk marketplace tools from the production OpenAPI document.
 
 ## Standard x402 v2
 
@@ -10,7 +10,7 @@ This Model Context Protocol server discovers and exposes the 66 currently billab
 4. Retry the same MCP tool with the returned signature in `payment_signature`.
 5. On success, inspect `payment_response_header` for the facilitator settlement response and use the delivered product output.
 
-The marketplace uses the standard `PAYMENT-REQUIRED`, `PAYMENT-SIGNATURE`, and `PAYMENT-RESPONSE` flow with the exact EVM scheme on Base mainnet through PayAI.
+The marketplace uses the standard `PAYMENT-REQUIRED`, `PAYMENT-SIGNATURE`, and `PAYMENT-RESPONSE` flow with the exact EVM scheme on Base mainnet through Coinbase CDP.
 
 ## Capped one-call auto-pay
 
