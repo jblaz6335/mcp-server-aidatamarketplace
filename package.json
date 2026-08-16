@@ -2,7 +2,7 @@
   "name": "dopaminedesk-ai-data-marketplace-mcp",
   "version": "2.9.0",
   "mcpName": "io.github.jblaz6335/ai-data-marketplace",
-  "description": "Decision-ready x402 APIs for transaction preflight, company intelligence, endpoint verification, website due diligence, VIN safety, and market checks. No account or API key. Base USDC.",
+  "description": "Decision-ready x402 APIs for vendor risk, market opportunity, transaction preflight, company intelligence, endpoint verification, VIN safety, and market checks. No account or API key. Base USDC.",
   "main": "index.js",
   "bin": {
     "dopaminedesk-mcp": "index.js"
