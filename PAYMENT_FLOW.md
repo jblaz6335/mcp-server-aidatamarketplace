@@ -1,6 +1,6 @@
 # x402 payment flow
 
-This Model Context Protocol server discovers and exposes the 69 currently billable DopamineDesk marketplace tools from the production OpenAPI document.
+This Model Context Protocol server discovers and exposes every currently billable DopamineDesk marketplace tool from the production OpenAPI document. The list is loaded live, so newly deployed products appear without a hand-written package update.
 
 ## Standard x402 v2
 
