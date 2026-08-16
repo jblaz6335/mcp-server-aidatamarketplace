@@ -1,8 +1,8 @@
 {
   "name": "dopaminedesk-ai-data-marketplace-mcp",
-  "version": "2.8.3",
+  "version": "2.9.0",
   "mcpName": "io.github.jblaz6335/ai-data-marketplace",
-  "description": "Pay-per-call APIs for AI agent loops: live EVM chain reads from $0.001, page fetch, market, security, and verification data. No API key, no account, free live previews on every product. USDC on Base via x402 with capped one-call auto-pay.",
+  "description": "Decision-ready x402 APIs for transaction preflight, company intelligence, endpoint verification, website due diligence, VIN safety, and market checks. No account or API key. Base USDC.",
   "main": "index.js",
   "bin": {
     "dopaminedesk-mcp": "index.js"
@@ -36,7 +36,7 @@
     "sec-filings",
     "stock-api",
     "sanctions-screening",
-    "free-preview"
+    "contract-preview"
   ],
   "author": "DopamineDesk",
   "license": "MIT",

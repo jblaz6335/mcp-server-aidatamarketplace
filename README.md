@@ -3,36 +3,41 @@
 [![Base Mainnet](https://img.shields.io/badge/Network-Base_Mainnet-blue)](https://base.org)
 [![x402 Protocol](https://img.shields.io/badge/Protocol-x402_v2-green)](https://ai-data-marketplace-1042299154756.us-central1.run.app/.well-known/x402)
 [![x402scan](https://img.shields.io/badge/x402scan-live_catalog-00c2ff)](https://www.x402scan.com/server/8dd63536-ba25-40f4-b36a-7d05ed18d007)
-[![Public verification](https://img.shields.io/badge/Public_verification-open-86f7c5)](https://ai-data-marketplace-1042299154756.us-central1.run.app/verification)
 [![Model Context Protocol](https://img.shields.io/badge/MCP-Server-purple)](https://modelcontextprotocol.io)
 [![npm](https://img.shields.io/npm/v/dopaminedesk-ai-data-marketplace-mcp?label=npm)](https://www.npmjs.com/package/dopaminedesk-ai-data-marketplace-mcp)
-[![Smithery](https://img.shields.io/badge/Smithery-live-00c853)](https://smithery.ai/server/jblaz6335/dopaminedesk-agent-data-arcade)
 [![Tests](https://github.com/jblaz6335/mcp-server-aidatamarketplace/actions/workflows/test.yml/badge.svg)](https://github.com/jblaz6335/mcp-server-aidatamarketplace/actions/workflows/test.yml)
 
-Model Context Protocol (MCP) server and machine-to-machine data API gateway powered by the **x402 Payment Protocol** on **Base Mainnet**.
+Decision-ready machine-to-machine reports paid per request with the **x402 Payment Protocol** on **Base Mainnet**.
 
-**No API key. No account. No subscription.** The catalog exposes live-source, pay-per-call products including EVM chain reads, stock quotes and SEC filings, FX rates, token security audits, OFAC sanctions screening, and LEI and VIN lookups. Calls start at **$0.001** and settle per request in USDC.
+**No API key. No account. No subscription.** Buy one current answer in USDC when a workflow needs it. The catalog includes transaction preflight, company intelligence, x402 endpoint verification, website due diligence, VIN safety, market checks, security research, and atomic EVM reads.
 
-**Try any product free before you pay.** Every billable route accepts `?preview=true` and returns a bounded sample of the real deliverable from the real live source, so an agent can verify the data is worth buying first. Previews are for evaluation: long lists and long fields are clipped, every response says whether it was truncated, and short results come back complete.
+Every billable route accepts `?preview=true`. The preview is a live contract proof showing the source, freshness, required inputs, and response shape. It deliberately withholds the decision-ready values delivered by the paid call.
 
-```bash
-curl "https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/evm_block_number?preview=true"
-```
+## Buyer-ready outcomes
+
+| Product | What the paid call delivers | Price (USDC) |
+| :--- | :--- | :--- |
+| [`transaction_preflight`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/transaction_preflight?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Read-only transaction simulation evidence before signing | **0.005** |
+| [`company_intelligence`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/company_intelligence?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Company enrichment and vendor research brief | **0.010** |
+| [`x402_endpoint_preflight`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/x402_endpoint_preflight?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | x402 endpoint verification, challenge linting, and buyer compatibility evidence | **0.003** |
+| [`website_due_diligence`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/website_due_diligence?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Website trust, security, metadata, and risk evidence in one report | **0.040** |
+| [`vehicle_safety_report`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/vehicle_safety_report?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | VIN decode, recall, complaint, and buyer safety evidence | **0.008** |
+| [`crypto_market_snapshot`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/crypto_market_snapshot?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Current multi-asset pricing and market context | **0.010** |
+
+These are complete paid deliverables, not teaser text. The lower-level catalog remains available for workflows that need a single chain read, filing, sanctions check, quote, or verification result.
 
 ## Install
-
-Run directly with npm:
 
 ```bash
 npx -y dopaminedesk-ai-data-marketplace-mcp
 ```
 
-Any stdio-compatible MCP client:
+Use it from any stdio-compatible MCP client:
 
 ```json
 {
   "mcpServers": {
-    "dopaminedesk-data-arcade": {
+    "dopaminedesk-data-marketplace": {
       "command": "npx",
       "args": ["-y", "dopaminedesk-ai-data-marketplace-mcp"]
     }
@@ -40,14 +45,24 @@ Any stdio-compatible MCP client:
 }
 ```
 
-### Optional one-call purchasing
+Official MCP Registry name: `io.github.jblaz6335/ai-data-marketplace`.
 
-Version 2.8.3 can complete the x402 challenge, authorization, retry, and settlement automatically. The buyer key stays inside the buyer's local MCP process; the marketplace never receives it. Use a dedicated low-balance Base wallet, not a primary wallet.
+## Inspect a live contract
+
+```bash
+curl "https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/company_intelligence?preview=true&domain=example.com"
+```
+
+The proof includes source, freshness, request parameters, top-level fields, response shape, and a purchase block. Decision-ready values remain in the paid result.
+
+## Optional one-call purchasing
+
+Version 2.9.0 can complete the x402 challenge, authorization, retry, and settlement automatically. The buyer key stays inside the local MCP process and is never sent to the marketplace. Use a dedicated low-balance Base wallet, not a primary wallet.
 
 ```json
 {
   "mcpServers": {
-    "dopaminedesk-data-arcade": {
+    "dopaminedesk-data-marketplace": {
       "command": "npx",
       "args": ["-y", "dopaminedesk-ai-data-marketplace-mcp"],
       "env": {
@@ -60,23 +75,19 @@ Version 2.8.3 can complete the x402 challenge, authorization, retry, and settlem
 }
 ```
 
-Call any product with `auto_pay: true`. The adapter refuses a price above `X402_MAX_PAYMENT_USDC`, refuses conflicting payment inputs, and never falls back to an uncapped purchase. Without these environment variables, preview and manual-signature behavior remains unchanged.
+Call a product with `auto_pay: true`. The adapter refuses disabled, conflicting, invalid, or over-cap purchases. It never falls back to an uncapped payment.
 
-Official MCP Registry name: `io.github.jblaz6335/ai-data-marketplace`.
+## Verification and engineering scope
 
-Every marketplace, payment, directory, and package claim can be checked from the [public verification hub](https://ai-data-marketplace-1042299154756.us-central1.run.app/verification). Agents can read the same evidence as JSON from [the machine verification record](https://ai-data-marketplace-1042299154756.us-central1.run.app/.well-known/marketplace-verification.json).
+The [public verification hub](https://ai-data-marketplace-1042299154756.us-central1.run.app/verification) and [machine verification record](https://ai-data-marketplace-1042299154756.us-central1.run.app/.well-known/marketplace-verification.json) expose the production evidence.
 
-## Engineering Scope
-
-I built this adapter around a few constraints that matter in machine-to-machine commerce:
+I built this adapter around these constraints:
 
 - the production OpenAPI contract is the source of truth for tool discovery;
-- buyers can inspect bounded live previews before authorizing payment;
+- live contract proofs verify the source and schema without replacing the paid product;
 - automatic purchasing is opt-in, locally signed, and protected by a hard per-call cap;
 - conflicting, malformed, disabled, and over-cap payment attempts fail closed;
-- settlement details are returned with the deliverable so buyers can reconcile every call.
-
-The repository contains the MCP transport, x402 client flow, legacy integration helper, registry manifests, container configuration, and regression tests for the payment safety boundaries.
+- settlement details stay attached to the delivered result for reconciliation.
 
 Run the verification suite locally:
 
@@ -85,106 +96,33 @@ npm ci
 npm test
 ```
 
-## Published Distribution
+## Production contracts
 
-- **npm:** [`dopaminedesk-ai-data-marketplace-mcp`](https://www.npmjs.com/package/dopaminedesk-ai-data-marketplace-mcp), version 2.8.3
-- **Official MCP Registry:** [`io.github.jblaz6335/ai-data-marketplace`](https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.jblaz6335%2Fai-data-marketplace), active
-- **Smithery:** [`jblaz6335/dopaminedesk-agent-data-arcade`](https://smithery.ai/server/jblaz6335/dopaminedesk-agent-data-arcade), live
-- **PulseMCP:** queued for ingestion through its Official MCP Registry feed
+- **Store:** https://ai-data-marketplace-1042299154756.us-central1.run.app/
+- **OpenAPI:** https://ai-data-marketplace-1042299154756.us-central1.run.app/openapi.json
+- **Postman:** https://ai-data-marketplace-1042299154756.us-central1.run.app/postman.json
+- **LLM manifest:** https://ai-data-marketplace-1042299154756.us-central1.run.app/llms.txt
+- **x402 manifest:** https://ai-data-marketplace-1042299154756.us-central1.run.app/.well-known/x402
+- **x402scan:** https://www.x402scan.com/server/8dd63536-ba25-40f4-b36a-7d05ed18d007
 
-Every product in the catalog is billable and backed by a declared live source, a verified snapshot, or a transparent deterministic processor - there are no sample fixtures. Every API response identifies its data mode, availability, billing state, and backing source. Counts and prices always come from the live OpenAPI document, never from this README.
+The MCP adapter builds its tool list from the production OpenAPI document. Counts, prices, availability, data mode, and source declarations come from the live contract instead of a hand-written endpoint list.
 
-The newest demand-led lanes add low-cost atomic calls and answer-ready bundles for:
+Every billable product uses x402 v2 exact payments on Base mainnet through the Coinbase CDP facilitator:
 
-- read-only agent transaction preflight, ERC-20 allowances, and contract proxy evidence;
-- atomic EVM block height, block, transaction, receipt, and account nonce reads;
-- native balance reads, deployed bytecode inspection, bounded read-only contract calls, and capped event-log retrieval;
-- live public Shopify catalog search with current products, variants, prices, availability, images, and UCP capabilities;
-- GLEIF legal-entity identity and official OFAC SDN name screening;
-- official NHTSA VIN decoding, recalls, complaints, and buyer safety reports.
+1. Call the endpoint and read the base64 `PAYMENT-REQUIRED` response header.
+2. Sign the exact authorization with a compatible x402 buyer client.
+3. Retry with `PAYMENT-SIGNATURE`.
+4. Read settlement details from `PAYMENT-RESPONSE`.
 
-The MCP adapter builds its tool list from the production OpenAPI document. It does not maintain a stale hand-written endpoint list.
+See [PAYMENT_FLOW.md](PAYMENT_FLOW.md) for the manual and legacy confirmed-transaction paths.
 
----
+## Published distribution
 
-## Production API Service
-
-- **Base Service URL:** `https://ai-data-marketplace-1042299154756.us-central1.run.app`
-- **OpenAPI Specification:** `https://ai-data-marketplace-1042299154756.us-central1.run.app/openapi.json`
-- **Postman 1-Click Collection:** `https://ai-data-marketplace-1042299154756.us-central1.run.app/postman.json`
-- **LLM Manifest:** `https://ai-data-marketplace-1042299154756.us-central1.run.app/llms.txt`
-- **x402 Protocol Manifest:** `https://ai-data-marketplace-1042299154756.us-central1.run.app/.well-known/x402`
-- **x402scan Marketplace Page:** `https://www.x402scan.com/server/8dd63536-ba25-40f4-b36a-7d05ed18d007`
-
-The paid OpenAPI contract contains exactly the billable products - nothing more. Withdrawn concepts return HTTP 404 rather than lingering as unpayable routes.
-
----
-
-## Data Schema Inspection Mode
-
-Client applications and autonomous agents can evaluate response schemas and data quality without executing a paid transaction by adding the `preview=true` parameter. The preview is a bounded sample of the same live result, carries `preview_truncated` and a `purchase` block describing the paid call, and is rate limited per tool so it stays an evaluation step rather than a free tier:
-
-```bash
-curl -s "https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/candles?preview=true&ticker=bitcoin"
-```
-
----
-
-## The Loop Lane - what agents call every iteration
-
-| Endpoint | What it reads | Settlement (USDC) |
-| :--- | :--- | :--- |
-| `GET /api/v1/evm_balance` | Native balance on Base, Ethereum, or Arbitrum | **0.001** |
-| `GET /api/v1/evm_block_number` | Current block height | **0.001** |
-| `POST /api/v1/evm_call` | Bounded read-only contract call | **0.002** |
-| `GET /api/v1/evm_receipt` | Execution status, gas, and event logs | **0.003** |
-| `GET /api/v1/evm_logs` | Contract events with optional topic filter | **0.003** |
-| `POST /api/v1/scrape_md` | Public page to bounded Markdown | **0.003** |
-| `GET /api/v1/url_metadata` | Title, description, OG image, status | **0.003** |
-| `GET /api/v1/whale_alerts` | Large ERC-20 transfers from recent blocks | **0.005** |
-| `GET /api/v1/pwned_check` | HIBP k-anonymity breached-hash check | **0.005** |
-
-Beyond the loop lane: market data, SEC filings, sanctions screening, VIN and entity verification, token security, and composite research briefs. The complete current list with live prices is always the OpenAPI document - this README deliberately does not duplicate it.
-
----
-
-## Standard x402 v2 Payment Flow
-
-Every billable product uses x402 v2 exact payments on Base mainnet, settled through the Coinbase CDP facilitator:
-
-1. Call a paid endpoint without payment and read the base64-encoded `PAYMENT-REQUIRED` response header.
-2. Use an x402 v2 client and buyer wallet to sign the exact USDC authorization.
-3. Retry with the resulting `PAYMENT-SIGNATURE` header.
-4. On success, read the settled transaction details from `PAYMENT-RESPONSE`.
-
-The MCP adapter returns both the decoded challenge and the original `payment_required_header`. A compatible buyer can sign that challenge and retry the same tool with the `payment_signature` input. Buyers who configure the optional capped local wallet can instead set `auto_pay: true` and complete the entire flow in one tool call. Successful responses include `payment_response_header`.
-
-The server advertises Bazaar-compatible discovery schemas on every 402 challenge while keeping seller-owned OpenAPI, MCP, sitemap, and agent-purchase documents canonical. The Coinbase CDP facilitator handles verification and settlement; USDC is delivered directly to the configured marketplace wallet.
-
-## Legacy Integration Client (`client.py`)
-
-The included Python helper preserves the confirmed-transaction fallback for older integrations that do not yet use an x402 v2 signing client:
-
-```python
-import requests
-
-MARKETPLACE_URL = "https://ai-data-marketplace-1042299154756.us-central1.run.app"
-
-# 1. Request the standard challenge and legacy invoice body
-invoice_response = requests.get(f"{MARKETPLACE_URL}/api/v1/candles?ticker=bitcoin")
-invoice = invoice_response.json()["x402_invoice"]
-print("Pay this Base USDC invoice with an external wallet:", invoice)
-
-# 2. After paying externally, retry with the real Base transaction hash and invoice ID
-headers = {
-    "x-402-payment-tx": "0x_YOUR_REAL_BASE_TRANSACTION_HASH",
-    "x-402-payment-id": invoice["payment_id"]
-}
-data = requests.get(f"{MARKETPLACE_URL}/api/v1/candles?ticker=bitcoin", headers=headers).json()
-print("Payload Result:", data)
-```
-
----
+- [npm package](https://www.npmjs.com/package/dopaminedesk-ai-data-marketplace-mcp)
+- [Official MCP Registry](https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.jblaz6335%2Fai-data-marketplace)
+- [Smithery](https://smithery.ai/server/jblaz6335/dopaminedesk-agent-data-arcade)
+- [x402scan](https://www.x402scan.com/server/8dd63536-ba25-40f4-b36a-7d05ed18d007)
 
 ## License
-MIT License. Open-source Model Context Protocol server.
+
+MIT License. Open-source MCP buyer adapter and marketplace client.

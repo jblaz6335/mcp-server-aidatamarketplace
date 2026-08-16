@@ -4,7 +4,7 @@ import json
 MARKETPLACE_URL = "https://ai-data-marketplace-1042299154756.us-central1.run.app"
 
 def fetch_free_preview(endpoint="/api/v1/candles?ticker=bitcoin"):
-    """Fetch free preview sample without payment"""
+    """Inspect the live source contract without receiving paid decision values."""
     separator = "&" if "?" in endpoint else "?"
     url = f"{MARKETPLACE_URL}{endpoint}{separator}preview=true"
     response = requests.get(url)

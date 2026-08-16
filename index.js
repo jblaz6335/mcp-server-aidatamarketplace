@@ -6,7 +6,7 @@ import axios from 'axios';
 import { assertAutoPayAllowed, createAutoPayRuntime } from './autopay.js';
 
 const ORIGIN = process.env.MARKETPLACE_URL || 'https://ai-data-marketplace-1042299154756.us-central1.run.app';
-const server = new Server({ name: 'dopaminedesk-ai-data-marketplace', version: '2.8.3' }, { capabilities: { tools: {} } });
+const server = new Server({ name: 'dopaminedesk-ai-data-marketplace', version: '2.9.0' }, { capabilities: { tools: {} } });
 const CACHE_TTL_MS = 5 * 60 * 1000;
 let catalogCache = null;
 let catalogCachedAt = 0;
@@ -20,7 +20,7 @@ function toolName(method, endpointPath) {
 
 function transportFields() {
     return {
-        preview: { type: 'boolean', description: 'Use the rate-limited free preview without payment.' },
+        preview: { type: 'boolean', description: 'Inspect a rate-limited live contract proof showing source, freshness, response shape, and required inputs. Decision-ready values remain in the paid result.' },
         auto_pay: { type: 'boolean', description: 'Automatically authorize and pay this request with the locally configured buyer wallet. Requires X402_AUTO_PAY=true and X402_EVM_PRIVATE_KEY.' },
         payment_signature: { type: 'string', description: 'Base64 x402 v2 PAYMENT-SIGNATURE produced by a compatible buyer client.' },
         tx_hash: { type: 'string', description: 'Base transaction hash after paying an x402 invoice.' },
