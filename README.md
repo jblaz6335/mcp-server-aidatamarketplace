@@ -59,14 +59,20 @@ The proof includes source, freshness, request parameters, top-level fields, resp
 
 ## Optional one-call purchasing
 
-Version 2.9.0 can complete the x402 challenge, authorization, retry, and settlement automatically. The buyer key stays inside the local MCP process and is never sent to the marketplace. Use a dedicated low-balance Base wallet, not a primary wallet.
+The current GitHub source release, version 2.9.0, can complete the x402 challenge, authorization, retry, and settlement automatically. The npm `latest` tag still points to version 2.8.3, so install the source release directly until 2.9.0 is published to npm:
+
+```bash
+npx -y github:jblaz6335/mcp-server-aidatamarketplace
+```
+
+The buyer key stays inside the local MCP process and is never sent to the marketplace. Use a dedicated low-balance Base wallet, not a primary wallet.
 
 ```json
 {
   "mcpServers": {
     "dopaminedesk-data-marketplace": {
       "command": "npx",
-      "args": ["-y", "dopaminedesk-ai-data-marketplace-mcp"],
+      "args": ["-y", "github:jblaz6335/mcp-server-aidatamarketplace"],
       "env": {
         "X402_AUTO_PAY": "true",
         "X402_EVM_PRIVATE_KEY": "YOUR_DEDICATED_BUYER_WALLET_KEY",
