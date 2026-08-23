@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.jblaz6335/ai-data-marketplace",
   "title": "DopamineDesk x402 Marketplace",
-  "description": "Decision-ready x402 APIs for agent readiness, vendor risk, transaction preflight, company intelligence, endpoint verification, VIN safety, and market checks. No account or API key. Base USDC.",
+  "description": "Find and buy x402 agent readiness, vendor risk, transaction, and company intelligence APIs.",
   "repository": {
     "url": "https://github.com/jblaz6335/mcp-server-aidatamarketplace",
     "source": "github"
