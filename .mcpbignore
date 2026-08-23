@@ -1,8 +1,12 @@
 .git/
 .github/
+.env*
+*.mcpb
+.node_modules_incomplete_*/
 __pycache__/
-*.pyc
-*.tgz
+test/
 client.py
 Dockerfile
+glama.json
 server.json
+SECURITY.md

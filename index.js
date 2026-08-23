@@ -3,16 +3,23 @@ import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import axios from 'axios';
-import { assertAutoPayAllowed, createAutoPayRuntime } from './autopay.js';
 import { PRODUCT_SEARCH_TOOL, searchMarketplaceProducts } from './discovery.js';
 import { PURCHASE_PRODUCT_TOOL, normalizePurchaseRequest } from './purchase.js';
 
 const ORIGIN = process.env.MARKETPLACE_URL || 'https://ai-data-marketplace-1042299154756.us-central1.run.app';
-const server = new Server({ name: 'dopaminedesk-ai-data-marketplace', version: '2.10.0' }, { capabilities: { tools: {} } });
+const server = new Server({ name: 'dopaminedesk-ai-data-marketplace', version: '2.10.1' }, { capabilities: { tools: {} } });
 const CACHE_TTL_MS = 5 * 60 * 1000;
 let catalogCache = null;
 let catalogCachedAt = 0;
-const autoPayRuntime = createAutoPayRuntime();
+let autoPayRuntime = { enabled: false, maxPaymentUsdc: 0, fetchWithPayment: null, error: null };
+let assertAutoPayRequest = () => {
+  throw new Error('Auto-pay is disabled. Set X402_AUTO_PAY=true in this MCP server configuration.');
+};
+if (/^(1|true|yes)$/i.test(process.env.X402_AUTO_PAY || '')) {
+  const autoPay = await import('./autopay.js');
+  autoPayRuntime = autoPay.createAutoPayRuntime();
+  assertAutoPayRequest = (priceUsdc, hasConflictingInput) => autoPay.assertAutoPayAllowed(autoPayRuntime, priceUsdc, hasConflictingInput);
+}
 if (autoPayRuntime.error) console.error(`x402 auto-pay unavailable: ${autoPayRuntime.error} Auto-pay calls will be refused.`);
 
 function toolName(method, endpointPath) {
@@ -112,7 +119,7 @@ server.setRequestHandler(CallToolRequestSchema, async request => {
       throw new Error('auto_pay cannot be combined with preview, payment_signature, tx_hash, or agent_token.');
     }
     if (autoPay) {
-      assertAutoPayAllowed(autoPayRuntime, descriptor._route.priceUsdc, preview || paymentSignature || txHash || agentToken);
+      assertAutoPayRequest(descriptor._route.priceUsdc, preview || paymentSignature || txHash || agentToken);
     }
     const headers = {};
     if (paymentSignature) headers['payment-signature'] = paymentSignature;
