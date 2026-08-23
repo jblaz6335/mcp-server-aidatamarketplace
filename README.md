@@ -13,7 +13,7 @@ Decision-ready machine-to-machine reports paid per request with the **x402 Payme
 
 Every billable route accepts `?preview=true`. The preview is a live contract proof showing the source, freshness, required inputs, and response shape. It deliberately withholds the decision-ready values delivered by the paid call.
 
-Start with the free `find_marketplace_products` MCP tool. Give it the buyer's task in plain language and it returns the strongest matching live products, exact prices, sources, inputs, and preview links before any payment decision.
+Start with the free `find_marketplace_products` MCP tool. Give it the buyer's task in plain language and it returns the strongest matching live products, exact prices, sources, inputs, and preview links before any payment decision. Then pass the returned `operation_id` and product inputs to `purchase_marketplace_product` to preview or buy it without searching through the full dynamic tool list.
 
 ## Buyer-ready outcomes
 
@@ -64,10 +64,10 @@ The proof includes source, freshness, request parameters, top-level fields, resp
 
 ## Optional one-call purchasing
 
-The current GitHub source release, version 2.9.0, can complete the x402 challenge, authorization, retry, and settlement automatically. The npm `latest` tag still points to version 2.8.3, so install the source release directly until 2.9.0 is published to npm:
+The current npm release can complete the x402 challenge, authorization, retry, and settlement automatically. Install the public package directly:
 
 ```bash
-npx -y github:jblaz6335/mcp-server-aidatamarketplace
+npx -y dopaminedesk-ai-data-marketplace-mcp
 ```
 
 The buyer key stays inside the local MCP process and is never sent to the marketplace. Use a dedicated low-balance Base wallet, not a primary wallet.

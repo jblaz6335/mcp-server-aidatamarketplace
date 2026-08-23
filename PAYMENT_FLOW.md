@@ -2,6 +2,8 @@
 
 This Model Context Protocol server discovers and exposes every currently billable DopamineDesk marketplace tool from the production OpenAPI document. The list is loaded live, so newly deployed products appear without a hand-written package update.
 
+For the shortest buyer path, call the free `find_marketplace_products` tool with the desired outcome, then pass its returned `operation_id` and product inputs to `purchase_marketplace_product`. The generic purchase tool supports the same preview, manual x402, confirmed-transaction, bearer-credit, and capped auto-pay paths as every individual product tool.
+
 ## Standard x402 v2
 
 1. Call a tool without payment fields.

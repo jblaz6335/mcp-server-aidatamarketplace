@@ -5,9 +5,10 @@ import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprot
 import axios from 'axios';
 import { assertAutoPayAllowed, createAutoPayRuntime } from './autopay.js';
 import { PRODUCT_SEARCH_TOOL, searchMarketplaceProducts } from './discovery.js';
+import { PURCHASE_PRODUCT_TOOL, normalizePurchaseRequest } from './purchase.js';
 
 const ORIGIN = process.env.MARKETPLACE_URL || 'https://ai-data-marketplace-1042299154756.us-central1.run.app';
-const server = new Server({ name: 'dopaminedesk-ai-data-marketplace', version: '2.9.0' }, { capabilities: { tools: {} } });
+const server = new Server({ name: 'dopaminedesk-ai-data-marketplace', version: '2.10.0' }, { capabilities: { tools: {} } });
 const CACHE_TTL_MS = 5 * 60 * 1000;
 let catalogCache = null;
 let catalogCachedAt = 0;
@@ -36,6 +37,7 @@ async function loadCatalog() {
   const paths = response.data?.paths || {};
   const tools = [];
   const byName = new Map();
+  const byOperationId = new Map();
 
   for (const [endpointPath, methods] of Object.entries(paths)) {
     for (const [methodLower, operation] of Object.entries(methods)) {
@@ -48,25 +50,27 @@ async function loadCatalog() {
         ? (operation.parameters || []).filter(parameter => parameter.required).map(parameter => parameter.name)
         : operation.requestBody?.content?.['application/json']?.schema?.required || [];
       const name = toolName(method, endpointPath);
+      const operationId = String(operation.operationId || name);
       const descriptor = {
         name,
         description: `${operation.description} Price: ${operation['x-price-usdc']} USDC. Mode: ${operation['x-data-mode']}. Source: ${operation['x-source'] || 'declared in response'}. Set auto_pay=true for a one-call purchase when the local buyer wallet is configured.`,
         inputSchema: { type: 'object', properties: { ...baseProperties, ...transportFields() }, required },
-        _route: { method, endpointPath, priceUsdc: Number(operation['x-price-usdc']) }
+        _route: { method, endpointPath, operationId, priceUsdc: Number(operation['x-price-usdc']) }
       };
       tools.push(descriptor);
       byName.set(name, descriptor);
+      byOperationId.set(operationId, descriptor);
     }
   }
 
-  catalogCache = { tools, byName };
+  catalogCache = { tools, byName, byOperationId };
   catalogCachedAt = Date.now();
   return catalogCache;
 }
 
 server.setRequestHandler(ListToolsRequestSchema, async () => {
   const catalog = await loadCatalog();
-  return { tools: [PRODUCT_SEARCH_TOOL, ...catalog.tools.map(({ _route, ...tool }) => tool)] };
+  return { tools: [PRODUCT_SEARCH_TOOL, PURCHASE_PRODUCT_TOOL, ...catalog.tools.map(({ _route, ...tool }) => tool)] };
 });
 
 server.setRequestHandler(CallToolRequestSchema, async request => {
@@ -76,10 +80,20 @@ server.setRequestHandler(CallToolRequestSchema, async request => {
       return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
     }
     const catalog = await loadCatalog();
-    const descriptor = catalog.byName.get(request.params.name);
+    let descriptor;
+    let requestedArguments;
+    if (request.params.name === PURCHASE_PRODUCT_TOOL.name) {
+      const purchase = normalizePurchaseRequest(request.params.arguments);
+      descriptor = catalog.byOperationId.get(purchase.operationId);
+      if (!descriptor) throw new Error(`Unknown marketplace operation_id: ${purchase.operationId}`);
+      requestedArguments = purchase.routeArguments;
+    } else {
+      descriptor = catalog.byName.get(request.params.name);
+      requestedArguments = request.params.arguments;
+    }
     if (!descriptor) throw new Error(`Unknown marketplace tool: ${request.params.name}`);
 
-    const args = { ...(request.params.arguments || {}) };
+    const args = { ...(requestedArguments || {}) };
     const paymentSignature = args.payment_signature;
     const txHash = args.tx_hash;
     const paymentId = args.payment_id;
