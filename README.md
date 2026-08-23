@@ -29,6 +29,8 @@ Every billable route accepts `?preview=true`. The preview is a live contract pro
 
 These are complete paid deliverables, not teaser text. The lower-level catalog remains available for workflows that need a single chain read, filing, sanctions check, quote, or verification result.
 
+If this open-source buyer adapter saves you integration work, you can [support its maintenance on Ko-fi](https://ko-fi.com/C2A325JGKN/).
+
 ## Install
 
 ```bash

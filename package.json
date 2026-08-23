@@ -50,6 +50,10 @@
     "url": "git+https://github.com/jblaz6335/mcp-server-aidatamarketplace.git"
   },
   "homepage": "https://ai-data-marketplace-1042299154756.us-central1.run.app/",
+  "funding": {
+    "type": "ko-fi",
+    "url": "https://ko-fi.com/C2A325JGKN/"
+  },
   "bugs": {
     "url": "https://github.com/jblaz6335/mcp-server-aidatamarketplace/issues"
   },
