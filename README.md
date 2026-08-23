@@ -9,7 +9,7 @@
 
 Decision-ready machine-to-machine reports paid per request with the **x402 Payment Protocol** on **Base Mainnet**.
 
-**No API key. No account. No subscription.** Buy one current answer in USDC when a workflow needs it. The catalog includes transaction preflight, vendor onboarding risk, live x402 opportunity research, company intelligence, endpoint verification, website due diligence, VIN safety, market checks, security research, and atomic EVM reads.
+**No API key. No account. No subscription.** Buy one current answer in USDC when a workflow needs it. The catalog includes agent-readiness audits, vendor onboarding risk, transaction preflight, live x402 opportunity research, company intelligence, endpoint verification, website due diligence, VIN safety, market checks, security research, and atomic EVM reads.
 
 Every billable route accepts `?preview=true`. The preview is a live contract proof showing the source, freshness, required inputs, and response shape. It deliberately withholds the decision-ready values delivered by the paid call.
 
@@ -17,6 +17,7 @@ Every billable route accepts `?preview=true`. The preview is a live contract pro
 
 | Product | What the paid call delivers | Price (USDC) |
 | :--- | :--- | :--- |
+| [`agent_readiness_audit`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/agent_readiness_audit?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Scored evidence and prioritized repairs for the discovery files agents use to find, understand, and buy from a site | **0.025** |
 | [`vendor_risk_report`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/vendor_risk_report?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Vendor onboarding decision with current identity, sanctions, domain, TLS, hosting, and website evidence | **0.020** |
 | [`x402_market_opportunity_report`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/x402_market_opportunity_report?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Live x402 demand, competition, health, pricing, and build recommendation | **0.010** |
 | [`transaction_preflight`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/transaction_preflight?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Read-only transaction simulation evidence before signing | **0.005** |
