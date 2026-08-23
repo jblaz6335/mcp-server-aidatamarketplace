@@ -4,6 +4,7 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import axios from 'axios';
 import { assertAutoPayAllowed, createAutoPayRuntime } from './autopay.js';
+import { PRODUCT_SEARCH_TOOL, searchMarketplaceProducts } from './discovery.js';
 
 const ORIGIN = process.env.MARKETPLACE_URL || 'https://ai-data-marketplace-1042299154756.us-central1.run.app';
 const server = new Server({ name: 'dopaminedesk-ai-data-marketplace', version: '2.9.0' }, { capabilities: { tools: {} } });
@@ -65,14 +66,18 @@ async function loadCatalog() {
 
 server.setRequestHandler(ListToolsRequestSchema, async () => {
   const catalog = await loadCatalog();
-  return { tools: catalog.tools.map(({ _route, ...tool }) => tool) };
+  return { tools: [PRODUCT_SEARCH_TOOL, ...catalog.tools.map(({ _route, ...tool }) => tool)] };
 });
 
 server.setRequestHandler(CallToolRequestSchema, async request => {
   try {
+    if (request.params.name === PRODUCT_SEARCH_TOOL.name) {
+      const result = await searchMarketplaceProducts(axios, ORIGIN, request.params.arguments?.query);
+      return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+    }
     const catalog = await loadCatalog();
     const descriptor = catalog.byName.get(request.params.name);
-    if (!descriptor) throw new Error(`Unknown or currently non-billable tool: ${request.params.name}`);
+    if (!descriptor) throw new Error(`Unknown marketplace tool: ${request.params.name}`);
 
     const args = { ...(request.params.arguments || {}) };
     const paymentSignature = args.payment_signature;

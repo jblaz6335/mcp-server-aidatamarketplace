@@ -13,6 +13,8 @@ Decision-ready machine-to-machine reports paid per request with the **x402 Payme
 
 Every billable route accepts `?preview=true`. The preview is a live contract proof showing the source, freshness, required inputs, and response shape. It deliberately withholds the decision-ready values delivered by the paid call.
 
+Start with the free `find_marketplace_products` MCP tool. Give it the buyer's task in plain language and it returns the strongest matching live products, exact prices, sources, inputs, and preview links before any payment decision.
+
 ## Buyer-ready outcomes
 
 | Product | What the paid call delivers | Price (USDC) |

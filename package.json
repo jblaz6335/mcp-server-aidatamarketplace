@@ -9,6 +9,7 @@
   },
   "files": [
     "autopay.js",
+    "discovery.js",
     "index.js",
     "README.md",
     "PAYMENT_FLOW.md",
