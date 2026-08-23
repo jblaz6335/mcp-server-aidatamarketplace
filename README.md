@@ -77,7 +77,7 @@ The buyer key stays inside the local MCP process and is never sent to the market
   "mcpServers": {
     "dopaminedesk-data-marketplace": {
       "command": "npx",
-      "args": ["-y", "github:jblaz6335/mcp-server-aidatamarketplace"],
+      "args": ["-y", "dopaminedesk-ai-data-marketplace-mcp@2.10.1"],
       "env": {
         "X402_AUTO_PAY": "true",
         "X402_EVM_PRIVATE_KEY": "YOUR_DEDICATED_BUYER_WALLET_KEY",
@@ -89,6 +89,8 @@ The buyer key stays inside the local MCP process and is never sent to the market
 ```
 
 Call a product with `auto_pay: true`. The adapter refuses disabled, conflicting, invalid, or over-cap purchases. It never falls back to an uncapped payment.
+
+For automated client installation, see [`llms-install.md`](./llms-install.md). Its default configuration exposes free discovery and previews without collecting a wallet key or enabling automatic payment.
 
 ## Verification and engineering scope
 
