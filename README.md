@@ -13,7 +13,7 @@ Decision-ready machine-to-machine reports paid per request with the **x402 Payme
 
 Every billable route accepts `?preview=true`. The preview is a live contract proof showing the source, freshness, required inputs, and response shape. It deliberately withholds the decision-ready values delivered by the paid call.
 
-Start with the free `find_marketplace_products` MCP tool. Give it the buyer's task in plain language and it returns the strongest matching live products, exact prices, sources, inputs, and preview links before any payment decision. Then pass the returned `operation_id` and product inputs to `purchase_marketplace_product` to preview or buy it without searching through the full dynamic tool list.
+Start with the free `find_marketplace_products` MCP tool. Give it the buyer's task in plain language and it returns three ranked live products plus one `recommended_purchase` containing the exact price, required inputs, and ready preview and paid-call payloads. Replace the example inputs with the buyer's real values, preview when available, and only use the paid call after the user authorizes the listed price and payment method.
 
 ## Buyer-ready outcomes
 
@@ -77,7 +77,7 @@ The buyer key stays inside the local MCP process and is never sent to the market
   "mcpServers": {
     "dopaminedesk-data-marketplace": {
       "command": "npx",
-      "args": ["-y", "dopaminedesk-ai-data-marketplace-mcp@2.10.1"],
+      "args": ["-y", "dopaminedesk-ai-data-marketplace-mcp@2.11.0"],
       "env": {
         "X402_AUTO_PAY": "true",
         "X402_EVM_PRIVATE_KEY": "YOUR_DEDICATED_BUYER_WALLET_KEY",

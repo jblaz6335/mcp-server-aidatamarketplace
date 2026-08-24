@@ -7,7 +7,7 @@ import { PRODUCT_SEARCH_TOOL, searchMarketplaceProducts } from './discovery.js';
 import { PURCHASE_PRODUCT_TOOL, normalizePurchaseRequest } from './purchase.js';
 
 const ORIGIN = process.env.MARKETPLACE_URL || 'https://ai-data-marketplace-1042299154756.us-central1.run.app';
-const server = new Server({ name: 'dopaminedesk-ai-data-marketplace', version: '2.10.1' }, { capabilities: { tools: {} } });
+const server = new Server({ name: 'dopaminedesk-ai-data-marketplace', version: '2.11.0' }, { capabilities: { tools: {} } });
 const CACHE_TTL_MS = 5 * 60 * 1000;
 let catalogCache = null;
 let catalogCachedAt = 0;

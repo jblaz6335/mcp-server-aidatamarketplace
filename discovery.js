@@ -23,11 +23,67 @@ export function normalizeProductSearchQuery(value) {
   return query;
 }
 
+function copyInputs(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
+  return { ...value };
+}
+
+export function addRecommendedPurchasePath(data) {
+  if (!data || typeof data !== 'object' || Array.isArray(data)) return data;
+  const products = Array.isArray(data.products) ? data.products : [];
+  const product = products[0];
+  if (!product || typeof product !== 'object' || !product.operation_id) {
+    return {
+      ...data,
+      recommended_purchase: null,
+      next_step: 'Refine the query. No matching paid product was returned.'
+    };
+  }
+
+  const inputs = copyInputs(product.example_request);
+  const baseArguments = {
+    operation_id: product.operation_id,
+    inputs
+  };
+  const requiredInputs = Array.isArray(product.input_parameters)
+    ? product.input_parameters.filter(input => input?.required === true).map(input => input.name).filter(Boolean)
+    : [];
+
+  return {
+    ...data,
+    recommended_purchase: {
+      operation_id: product.operation_id,
+      name: product.name,
+      why: product.use_when || product.description,
+      paid_outcome: product.description,
+      price_usdc: product.price_usdc,
+      source: product.source,
+      freshness: product.freshness,
+      required_inputs: requiredInputs,
+      inputs_are_examples: true,
+      instruction: 'Replace example inputs with the buyer\'s real values. Preview first when available. Only make the paid call after the user authorizes the listed price and payment method.',
+      preview_call: product.preview_url ? {
+        tool: 'purchase_marketplace_product',
+        arguments: { ...baseArguments, preview: true },
+        requires_payment: false
+      } : null,
+      paid_call: {
+        tool: 'purchase_marketplace_product',
+        arguments: baseArguments,
+        requires_payment: true
+      }
+    },
+    next_step: product.preview_url
+      ? 'Fill the buyer\'s real inputs and run recommended_purchase.preview_call.'
+      : 'Fill the buyer\'s real inputs, confirm payment, and run recommended_purchase.paid_call.'
+  };
+}
+
 export async function searchMarketplaceProducts(httpClient, origin, value) {
   const query = normalizeProductSearchQuery(value);
   const response = await httpClient.get(`${origin.replace(/\/$/, '')}/.well-known/agent-capabilities.json`, {
-    params: { q: query },
+    params: { q: query, limit: 3 },
     timeout: 15_000
   });
-  return response.data;
+  return addRecommendedPurchasePath(response.data);
 }

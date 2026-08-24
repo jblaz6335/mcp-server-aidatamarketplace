@@ -9,7 +9,7 @@ Install the public npm package as a local stdio MCP server. Use the safe default
   "mcpServers": {
     "dopaminedesk-x402-marketplace": {
       "command": "npx",
-      "args": ["-y", "dopaminedesk-ai-data-marketplace-mcp@2.10.1"]
+      "args": ["-y", "dopaminedesk-ai-data-marketplace-mcp@2.11.0"]
     }
   }
 }
@@ -18,8 +18,8 @@ Install the public npm package as a local stdio MCP server. Use the safe default
 After starting the server:
 
 1. Call `find_marketplace_products` with a plain-language task.
-2. Inspect the returned prices, sources, inputs, and preview links.
-3. Call `purchase_marketplace_product` with the returned `operation_id`, product inputs, and `preview: true`.
+2. Inspect `recommended_purchase`, which contains the strongest match, exact price, required inputs, and ready tool calls.
+3. Replace the example values with the buyer's real inputs and run `recommended_purchase.preview_call` when available.
 4. Only use a paid mode after the user explicitly chooses a product and payment method.
 
 ## Payment safety
@@ -33,7 +33,7 @@ After starting the server:
 ## Verification
 
 ```bash
-npx -y dopaminedesk-ai-data-marketplace-mcp@2.10.1
+npx -y dopaminedesk-ai-data-marketplace-mcp@2.11.0
 ```
 
 The server should start over stdio and expose `find_marketplace_products`, `purchase_marketplace_product`, and the product-specific tools. The public verification record is available at:
