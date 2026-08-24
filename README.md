@@ -56,6 +56,18 @@ Use it from any stdio-compatible MCP client:
 
 Official MCP Registry name: `io.github.jblaz6335/ai-data-marketplace`.
 
+## Buy with credits instead of configuring a wallet
+
+The service is already indexed in APIHub's external x402 catalog. Buyers with APIHub credits can ask its proxy to sign and settle a marketplace call without keeping a Base wallet or gas in the calling process:
+
+```bash
+npx @apihubio/cli register
+npx @apihubio/cli topup 5
+npx @apihubio/cli call https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/evm_block_number
+```
+
+APIHub is an independent third party with its own account, credit, markup, and terms. Direct x402 remains the self-custody path. Both routes settle the protected endpoint before its paid result is delivered.
+
 ## Inspect a live contract
 
 ```bash
@@ -79,7 +91,7 @@ The buyer key stays inside the local MCP process and is never sent to the market
   "mcpServers": {
     "dopaminedesk-data-marketplace": {
       "command": "npx",
-      "args": ["-y", "dopaminedesk-ai-data-marketplace-mcp@2.11.0"],
+      "args": ["-y", "dopaminedesk-ai-data-marketplace-mcp@2.11.2"],
       "env": {
         "X402_AUTO_PAY": "true",
         "X402_EVM_PRIVATE_KEY": "YOUR_DEDICATED_BUYER_WALLET_KEY",

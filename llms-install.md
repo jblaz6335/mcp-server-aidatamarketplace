@@ -9,7 +9,7 @@ Install the public npm package as a local stdio MCP server. Use the safe default
   "mcpServers": {
     "dopaminedesk-x402-marketplace": {
       "command": "npx",
-      "args": ["-y", "dopaminedesk-ai-data-marketplace-mcp@2.11.0"]
+      "args": ["-y", "dopaminedesk-ai-data-marketplace-mcp@2.11.2"]
     }
   }
 }
@@ -33,9 +33,21 @@ After starting the server:
 ## Verification
 
 ```bash
-npx -y dopaminedesk-ai-data-marketplace-mcp@2.11.0
+npx -y dopaminedesk-ai-data-marketplace-mcp@2.11.2
 ```
 
 The server should start over stdio and expose `find_marketplace_products`, `purchase_marketplace_product`, and the product-specific tools. The public verification record is available at:
 
 `https://ai-data-marketplace-1042299154756.us-central1.run.app/.well-known/marketplace-verification.json`
+
+## Credit purchase path without a local wallet
+
+The marketplace is indexed in APIHub's external x402 catalog. A buyer with APIHub credits can let APIHub sign and settle the x402 request instead of configuring a Base wallet or gas locally:
+
+```bash
+npx @apihubio/cli register
+npx @apihubio/cli topup 5
+npx @apihubio/cli call https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/evm_block_number
+```
+
+APIHub is an independent third party with its own account, credit, markup, and terms. Direct x402 remains available for self-custody buyers. In either path, confirm the endpoint price before making the paid call.
