@@ -1,6 +1,6 @@
 {
   "name": "dopaminedesk-ai-data-marketplace-mcp",
-  "version": "2.11.0",
+  "version": "2.11.1",
   "mcpName": "io.github.jblaz6335/ai-data-marketplace",
   "description": "Decision-ready x402 APIs for agent readiness, vendor risk, transaction preflight, company intelligence, endpoint verification, VIN safety, and market checks. No account or API key. Base USDC.",
   "main": "index.js",
@@ -13,6 +13,7 @@
     "purchase.js",
     "index.js",
     "README.md",
+    "llms-install.md",
     "PAYMENT_FLOW.md",
     "LICENSE"
   ],
