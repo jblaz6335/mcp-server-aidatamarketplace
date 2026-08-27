@@ -1,0 +1,10 @@
+{
+  "servers": {
+    "dopaminedesk": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "dopaminedesk-ai-data-marketplace-mcp@2.11.3"],
+      "env": { "X402_TOOL_MODE": "compact", "X402_AUTO_PAY": "false" }
+    }
+  }
+}

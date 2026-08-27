@@ -9,7 +9,8 @@ Install the public npm package as a local stdio MCP server. Use the safe default
   "mcpServers": {
     "dopaminedesk-x402-marketplace": {
       "command": "npx",
-      "args": ["-y", "dopaminedesk-ai-data-marketplace-mcp@2.11.2"]
+      "args": ["-y", "dopaminedesk-ai-data-marketplace-mcp@2.11.3"],
+      "env": { "X402_TOOL_MODE": "compact", "X402_AUTO_PAY": "false" }
     }
   }
 }
@@ -33,10 +34,10 @@ After starting the server:
 ## Verification
 
 ```bash
-npx -y dopaminedesk-ai-data-marketplace-mcp@2.11.2
+npx -y dopaminedesk-ai-data-marketplace-mcp@2.11.3
 ```
 
-The server should start over stdio and expose `find_marketplace_products`, `purchase_marketplace_product`, and the product-specific tools. The public verification record is available at:
+The compact configuration exposes `find_marketplace_products` and `purchase_marketplace_product`. Remove `X402_TOOL_MODE` or set it to `full` to also expose the product-specific tools. Neither mode needs a key to start or browse. The public verification record is available at:
 
 `https://ai-data-marketplace-1042299154756.us-central1.run.app/.well-known/marketplace-verification.json`
 

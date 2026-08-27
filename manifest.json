@@ -2,7 +2,7 @@
   "manifest_version": "0.3",
   "name": "dopaminedesk-x402-marketplace",
   "display_name": "DopamineDesk x402 Marketplace",
-  "version": "2.10.1",
+  "version": "2.11.3",
   "description": "Find, preview, and buy live pay-per-use agent data APIs with Base USDC.",
   "long_description": "A one-click local MCP buyer adapter for the DopamineDesk x402 Marketplace. Start with free plain-language product discovery, then preview or purchase the selected live product through one generic tool or its product-specific tool. Paid calls remain explicit and accept a compatible x402 payment signature, confirmed transaction proof, or bearer credit.",
   "author": {
@@ -23,7 +23,9 @@
       "command": "node",
       "args": ["${__dirname}/index.js"],
       "env": {
-        "MARKETPLACE_URL": "${user_config.marketplace_url}"
+        "MARKETPLACE_URL": "${user_config.marketplace_url}",
+        "X402_TOOL_MODE": "compact",
+        "X402_AUTO_PAY": "false"
       }
     }
   },

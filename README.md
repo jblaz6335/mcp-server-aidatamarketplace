@@ -29,7 +29,7 @@ Start with the free `find_marketplace_products` MCP tool. Give it the buyer's ta
 | [`x402_endpoint_preflight`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/x402_endpoint_preflight?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | x402 endpoint verification, challenge linting, and buyer compatibility evidence | **0.003** |
 | [`website_due_diligence`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/website_due_diligence?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Website trust, security, metadata, and risk evidence in one report | **0.040** |
 | [`vehicle_safety_report`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/vehicle_safety_report?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | VIN decode, recall, complaint, and buyer safety evidence | **0.008** |
-| [`crypto_market_snapshot`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/crypto_market_snapshot?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Current multi-asset pricing and market context | **0.010** |
+| [`crypto_market_snapshot`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/crypto_market_snapshot?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Current multi-asset pricing and market context | **0.004** |
 
 These are complete paid deliverables, not teaser text. The lower-level catalog remains available for workflows that need a single chain read, filing, sanctions check, quote, or verification result.
 
@@ -55,6 +55,14 @@ Use it from any stdio-compatible MCP client:
 ```
 
 Official MCP Registry name: `io.github.jblaz6335/ai-data-marketplace`.
+
+### Small tool list for existing agents
+
+Set `X402_TOOL_MODE=compact` to expose just `find_marketplace_products` and `purchase_marketplace_product`. All live products remain available through those two tools. The default `full` mode keeps the product-specific tools for existing integrations.
+
+No environment variable or wallet key is required to start the default server. A wallet is needed only if the buyer chooses locally signed auto-pay. The remote `/mcp` URL is a separate authenticated publisher integration, not the public stdio install URL.
+
+Ready-to-copy configurations and a free end-to-end client check are in [examples/README.md](./examples/README.md). The check discovers a real product and requests its free preview. It never signs or submits a payment.
 
 ## Buy with credits instead of configuring a wallet
 
@@ -91,7 +99,7 @@ The buyer key stays inside the local MCP process and is never sent to the market
   "mcpServers": {
     "dopaminedesk-data-marketplace": {
       "command": "npx",
-      "args": ["-y", "dopaminedesk-ai-data-marketplace-mcp@2.11.2"],
+      "args": ["-y", "dopaminedesk-ai-data-marketplace-mcp@2.11.3"],
       "env": {
         "X402_AUTO_PAY": "true",
         "X402_EVM_PRIVATE_KEY": "YOUR_DEDICATED_BUYER_WALLET_KEY",

@@ -24,3 +24,11 @@ test('rejects unknown identifier shapes, non-object inputs, and hidden payment f
   assert.throws(() => normalizePurchaseRequest({ operation_id: 'evm_receipt', inputs: [] }), /inputs must be an object/);
   assert.throws(() => normalizePurchaseRequest({ operation_id: 'evm_receipt', inputs: { auto_pay: true } }), /top level/);
 });
+
+test('accepts the live hyphenated audit identifier without accepting paths or URLs', () => {
+  const operation_id = 'audit-website-ai-search-visibility-agent-readiness';
+  assert.equal(normalizePurchaseRequest({ operation_id, inputs: {}, preview: true }).operationId, operation_id);
+  for (const invalid of ['https://example.com', '../audit', 'audit?auto_pay=true', 'AUDIT']) {
+    assert.throws(() => normalizePurchaseRequest({ operation_id: invalid, inputs: {} }), /operation_id/);
+  }
+});

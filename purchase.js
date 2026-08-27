@@ -38,7 +38,7 @@ export const PURCHASE_PRODUCT_TOOL = Object.freeze({
 
 export function normalizePurchaseRequest(value = {}) {
   const operationId = String(value.operation_id || '').trim();
-  if (!/^[a-z0-9_]{2,100}$/.test(operationId)) {
+  if (!/^[a-z0-9_-]{2,100}$/.test(operationId)) {
     throw new Error('operation_id must be a 2-100 character lowercase catalog identifier.');
   }
   const inputs = value.inputs ?? {};

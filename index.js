@@ -3,11 +3,15 @@ import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import axios from 'axios';
+import { readFileSync } from 'node:fs';
 import { PRODUCT_SEARCH_TOOL, searchMarketplaceProducts } from './discovery.js';
 import { PURCHASE_PRODUCT_TOOL, normalizePurchaseRequest } from './purchase.js';
 
-const ORIGIN = process.env.MARKETPLACE_URL || 'https://ai-data-marketplace-1042299154756.us-central1.run.app';
-const server = new Server({ name: 'dopaminedesk-ai-data-marketplace', version: '2.11.0' }, { capabilities: { tools: {} } });
+const ORIGIN = (process.env.MARKETPLACE_URL || 'https://ai-data-marketplace-1042299154756.us-central1.run.app').replace(/\/$/, '');
+const { version } = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'));
+const TOOL_MODE = process.env.X402_TOOL_MODE || 'full';
+if (!['full', 'compact'].includes(TOOL_MODE)) throw new Error('X402_TOOL_MODE must be full or compact.');
+const server = new Server({ name: 'dopaminedesk-ai-data-marketplace', version }, { capabilities: { tools: {} } });
 const CACHE_TTL_MS = 5 * 60 * 1000;
 let catalogCache = null;
 let catalogCachedAt = 0;
@@ -76,6 +80,7 @@ async function loadCatalog() {
 }
 
 server.setRequestHandler(ListToolsRequestSchema, async () => {
+  if (TOOL_MODE === 'compact') return { tools: [PRODUCT_SEARCH_TOOL, PURCHASE_PRODUCT_TOOL] };
   const catalog = await loadCatalog();
   return { tools: [PRODUCT_SEARCH_TOOL, PURCHASE_PRODUCT_TOOL, ...catalog.tools.map(({ _route, ...tool }) => tool)] };
 });
