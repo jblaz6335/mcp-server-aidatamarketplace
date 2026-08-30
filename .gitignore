@@ -1,2 +1,12 @@
 node_modules/
 .env
+.env.*
+!.env.example
+.node_modules_incomplete_*/
+__pycache__/
+*.py[cod]
+*.mcpb
+.bas-wallets/
+*.pem
+*wallet*.json
+credentials*.json
