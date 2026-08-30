@@ -39,7 +39,7 @@ test('integration examples pin this release and disable payment by default', () 
 test('Docker context is restricted to runtime sources and dependency manifests', async () => {
   const dockerfile = await readFile(new URL('../Dockerfile', import.meta.url), 'utf8');
   const ignore = await readFile(new URL('../.dockerignore', import.meta.url), 'utf8');
-  assert.ok(ignore.startsWith('**\n'));
+  assert.match(ignore, /^\*\*\r?\n/, 'the first Docker ignore rule must exclude everything on LF and CRLF checkouts');
   assert.ok(!dockerfile.includes('COPY . .'));
   assert.ok(dockerfile.includes('COPY index.js autopay.js discovery.js purchase.js ./'));
 });
