@@ -1,14 +1,35 @@
 # Glama build and evaluation
 
-I use `Dockerfile.glama` for Glama's stdio build. It installs locked dependencies
-without lifecycle scripts, includes the MIT license, and runs as the unprivileged
-Node user. The regular `Dockerfile` retains the full tool catalog for existing users.
+I keep `Dockerfile.glama` as a standalone compact-mode container recipe. It installs
+locked dependencies without lifecycle scripts, includes the MIT license, and runs
+as the unprivileged Node user. Glama's admin UI generates its own Dockerfile from
+the fields below; it does not directly use this standalone recipe. The regular
+`Dockerfile` retains the full tool catalog for existing users.
 
 ## Admin configuration
 
-After claiming the server with the repository owner's GitHub account, paste the
-contents of `Dockerfile.glama` into Glama's Docker build configuration. The build
-context is the repository root. Start the container with `node index.js` over stdio.
+After claiming the server with the repository owner's GitHub account, sync the
+repository in Glama's Repository panel. In the Dockerfile panel, select Node.js 24
+and set the following fields. This JavaScript package has no build script.
+
+Build steps:
+
+```json
+["npm ci --omit=dev --ignore-scripts --no-audit --no-fund"]
+```
+
+CMD arguments:
+
+```json
+["mcp-proxy", "--", "env", "X402_TOOL_MODE=compact", "X402_AUTO_PAY=false", "node", "index.js"]
+```
+
+Leave the environment schema empty (`{"type":"object","properties":{},"required":[]}`)
+and placeholder parameters at `{}`. Pin a commit only after Glama has synced it.
+Glama supplies its own Debian base image and proxy/runtime setup. Review the
+generated Dockerfile before starting a Build test, then inspect the test result
+before making a release. The local recipe's unprivileged-user setting is not a
+claim about Glama's generated runtime.
 
 Keep `X402_TOOL_MODE=compact` and `X402_AUTO_PAY=false`. No credentials are required.
 Do not supply a wallet key, payment signature, transaction proof, or bearer credit.
