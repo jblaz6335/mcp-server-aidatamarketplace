@@ -1,0 +1,16 @@
+FROM node:24-alpine
+
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev --ignore-scripts --no-audit --no-fund
+COPY index.js autopay.js discovery.js purchase.js ./
+COPY LICENSE ./
+
+# Compact introspection is local. Discovery and previews use the public API.
+# Do not configure wallet keys, payment signatures, or bearer credits in Glama.
+ENV NODE_ENV=production \
+    X402_TOOL_MODE=compact \
+    X402_AUTO_PAY=false
+
+USER node
+CMD ["node", "index.js"]
