@@ -15,25 +15,20 @@ Every billable route accepts `?preview=true`. The preview is a live contract pro
 
 Start with the free `find_marketplace_products` MCP tool. Give it the buyer's task in plain language and it returns three ranked live products plus one `recommended_purchase` containing the exact price, required inputs, and ready preview and paid-call payloads. Replace the example inputs with the buyer's real values, preview when available, and only use the paid call after the user authorizes the listed price and payment method.
 
-## Buyer-ready outcomes
+## Engineering overview
 
-| Product | What the paid call delivers | Price (USDC) |
-| :--- | :--- | :--- |
-| [`agent_readiness_audit`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/agent_readiness_audit?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Scored evidence and prioritized repairs for the discovery files agents use to find, understand, and buy from a site | **0.025** |
-| [`evm_receipt`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/evm_receipt?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Live transaction status, gas use, contract creation details, and normalized event logs across Base, Ethereum, or Arbitrum | **0.003** |
-| [`evm_block_number`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/evm_block_number?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Current block height from a supported EVM network without maintaining an RPC integration | **0.001** |
-| [`vendor_risk_report`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/vendor_risk_report?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Vendor onboarding decision with current identity, sanctions, domain, TLS, hosting, and website evidence | **0.020** |
-| [`x402_market_opportunity_report`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/x402_market_opportunity_report?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Live x402 demand, competition, health, pricing, and build recommendation | **0.010** |
-| [`transaction_preflight`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/transaction_preflight?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Read-only transaction simulation evidence before signing | **0.005** |
-| [`company_intelligence`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/company_intelligence?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Company enrichment and vendor research brief | **0.010** |
-| [`x402_endpoint_preflight`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/x402_endpoint_preflight?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | x402 endpoint verification, challenge linting, and buyer compatibility evidence | **0.003** |
-| [`website_due_diligence`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/website_due_diligence?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Website trust, security, metadata, and risk evidence in one report | **0.040** |
-| [`vehicle_safety_report`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/vehicle_safety_report?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | VIN decode, recall, complaint, and buyer safety evidence | **0.008** |
-| [`crypto_market_snapshot`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/crypto_market_snapshot?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Current multi-asset pricing and market context | **0.004** |
+This repository contains the open-source MCP buyer adapter and client. The marketplace backend is a separate service.
 
-These are complete paid deliverables, not teaser text. The lower-level catalog remains available for workflows that need a single chain read, filing, sanctions check, quote, or verification result.
+```mermaid
+flowchart LR
+    A[MCP client] --> B[Local adapter]
+    B --> C[OpenAPI discovery and free previews]
+    B --> D[Opt-in capped payment]
+    D --> E[Marketplace endpoint]
+    E --> F[Result and settlement details]
+```
 
-If this open-source buyer adapter saves you integration work, you can [support its maintenance on Ko-fi](https://ko-fi.com/C2A325JGKN/).
+The adapter derives tools from the service's OpenAPI contract, keeps signing keys local, and rejects disabled, conflicting, malformed, and over-cap payment requests. Inspect [payment flow](PAYMENT_FLOW.md), [client examples](examples/README.md), and [automated verification](#verification-and-engineering-scope).
 
 ## Install
 
@@ -152,6 +147,26 @@ Every billable product uses x402 v2 exact payments on Base mainnet through the C
 4. Read settlement details from `PAYMENT-RESPONSE`.
 
 See [PAYMENT_FLOW.md](PAYMENT_FLOW.md) for the manual and legacy confirmed-transaction paths.
+
+## Buyer-ready outcomes
+
+| Product | What the paid call delivers | Price (USDC) |
+| :--- | :--- | :--- |
+| [`agent_readiness_audit`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/agent_readiness_audit?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Scored evidence and prioritized repairs for the discovery files agents use to find, understand, and buy from a site | **0.025** |
+| [`evm_receipt`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/evm_receipt?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Live transaction status, gas use, contract creation details, and normalized event logs across Base, Ethereum, or Arbitrum | **0.003** |
+| [`evm_block_number`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/evm_block_number?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Current block height from a supported EVM network without maintaining an RPC integration | **0.001** |
+| [`vendor_risk_report`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/vendor_risk_report?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Vendor onboarding decision with current identity, sanctions, domain, TLS, hosting, and website evidence | **0.020** |
+| [`x402_market_opportunity_report`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/x402_market_opportunity_report?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Live x402 demand, competition, health, pricing, and build recommendation | **0.010** |
+| [`transaction_preflight`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/transaction_preflight?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Read-only transaction simulation evidence before signing | **0.005** |
+| [`company_intelligence`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/company_intelligence?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Company enrichment and vendor research brief | **0.010** |
+| [`x402_endpoint_preflight`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/x402_endpoint_preflight?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | x402 endpoint verification, challenge linting, and buyer compatibility evidence | **0.003** |
+| [`website_due_diligence`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/website_due_diligence?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Website trust, security, metadata, and risk evidence in one report | **0.040** |
+| [`vehicle_safety_report`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/vehicle_safety_report?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | VIN decode, recall, complaint, and buyer safety evidence | **0.008** |
+| [`crypto_market_snapshot`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/crypto_market_snapshot?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Current multi-asset pricing and market context | **0.004** |
+
+These are complete paid deliverables, not teaser text. The lower-level catalog remains available for workflows that need a single chain read, filing, sanctions check, quote, or verification result.
+
+If this open-source buyer adapter saves you integration work, you can [support its maintenance on Ko-fi](https://ko-fi.com/C2A325JGKN/).
 
 ## Published distribution
 
