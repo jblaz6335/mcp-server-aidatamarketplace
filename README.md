@@ -5,6 +5,7 @@
 [![x402scan](https://img.shields.io/badge/x402scan-live_catalog-00c2ff)](https://www.x402scan.com/server/8dd63536-ba25-40f4-b36a-7d05ed18d007)
 [![Model Context Protocol](https://img.shields.io/badge/MCP-Server-purple)](https://modelcontextprotocol.io)
 [![npm](https://img.shields.io/npm/v/dopaminedesk-ai-data-marketplace-mcp?label=npm)](https://www.npmjs.com/package/dopaminedesk-ai-data-marketplace-mcp)
+[![npm downloads](https://img.shields.io/npm/dm/dopaminedesk-ai-data-marketplace-mcp?label=monthly%20downloads)](https://www.npmjs.com/package/dopaminedesk-ai-data-marketplace-mcp)
 [![Tests](https://github.com/jblaz6335/mcp-server-aidatamarketplace/actions/workflows/test.yml/badge.svg)](https://github.com/jblaz6335/mcp-server-aidatamarketplace/actions/workflows/test.yml)
 
 Decision-ready machine-to-machine reports paid per request with the **x402 Payment Protocol** on **Base Mainnet**.
@@ -14,6 +15,14 @@ Decision-ready machine-to-machine reports paid per request with the **x402 Payme
 Every billable route accepts `?preview=true`. The preview is a live contract proof showing the source, freshness, required inputs, and response shape. It deliberately withholds the decision-ready values delivered by the paid call.
 
 Start with the free `find_marketplace_products` MCP tool. Give it the buyer's task in plain language and it returns three ranked live products plus one `recommended_purchase` containing the exact price, required inputs, and ready preview and paid-call payloads. Replace the example inputs with the buyer's real values, preview when available, and only use the paid call after the user authorizes the listed price and payment method.
+
+## Try it without a wallet
+
+[Open a live Shopify catalog preview](https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/shopify_store_lookup?domain=smallcrewmerch.com&preview=true). It runs the public source and shows the response contract; the complete catalog result remains behind the 0.01 USDC payment gate. No account, key, or payment is needed for the preview.
+
+To try the MCP adapter in an existing client, [copy the two-tool configuration](examples/mcp-client.json) and ask your agent: “Find a tool to check a public Shopify storefront. Show me its price and free preview; do not pay.” Compact mode keeps the full catalog behind two tools. The [free integration check](examples/README.md) shows the same discovery and preview path end to end.
+
+The store publishes [live, deduplicated settlement totals](https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/settlement_metrics?days=90) that separate external payments from owner-controlled tests. Paid API calls demonstrate use of the store; they are **not** a count of unique people or proof that each buyer installed this MCP package. npm download counts also include automated installs.
 
 ## Engineering overview
 
@@ -152,6 +161,10 @@ See [PAYMENT_FLOW.md](PAYMENT_FLOW.md) for the manual and legacy confirmed-trans
 
 | Product | What the paid call delivers | Price (USDC) |
 | :--- | :--- | :--- |
+| [`shopify_store_lookup`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/shopify_store_lookup?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Current public Shopify products, variants, prices, and availability | **0.010** |
+| [`ssl_certificate`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/ssl_certificate?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Live certificate authorization, issuer, expiry, and fingerprint | **0.010** |
+| [`stock_research_brief`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/stock_research_brief?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Current market quote joined with recent official SEC filing metadata | **0.010** |
+| [`storefront_intelligence_report`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/storefront_intelligence_report?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Public Shopify catalog, availability, TLS, and declared agent-commerce evidence in one report | **0.030** |
 | [`agent_readiness_audit`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/agent_readiness_audit?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Scored evidence and prioritized repairs for the discovery files agents use to find, understand, and buy from a site | **0.025** |
 | [`evm_receipt`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/evm_receipt?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Live transaction status, gas use, contract creation details, and normalized event logs across Base, Ethereum, or Arbitrum | **0.003** |
 | [`evm_block_number`](https://ai-data-marketplace-1042299154756.us-central1.run.app/products/evm_block_number?utm_source=github&utm_medium=readme&utm_campaign=buyer_outcomes) | Current block height from a supported EVM network without maintaining an RPC integration | **0.001** |
