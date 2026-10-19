@@ -18,7 +18,7 @@ Start with the free `find_marketplace_products` MCP tool. Give it the buyer's ta
 
 ## Try it without a wallet
 
-[Open a live Shopify catalog preview](https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/shopify_store_lookup?domain=smallcrewmerch.com&preview=true). It runs the public source and shows the response contract; the complete catalog result remains behind the 0.01 USDC payment gate. No account, key, or payment is needed for the preview.
+[Open a live Shopify catalog preview](https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/shopify_store_lookup?domain=smallcrewmerch.com&preview=true&utm_source=github&utm_campaign=readme-free-preview). It runs the public source and shows the response contract; the complete catalog result remains behind the 0.01 USDC payment gate. No account, key, or payment is needed for the preview.
 
 To try the MCP adapter in an existing client, [copy the two-tool configuration](examples/mcp-client.json) and ask your agent: “Find a tool to check a public Shopify storefront. Show me its price and free preview; do not pay.” Compact mode keeps the full catalog behind two tools. The [free integration check](examples/README.md) shows the same discovery and preview path end to end.
 
