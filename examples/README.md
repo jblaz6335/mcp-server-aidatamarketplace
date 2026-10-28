@@ -20,6 +20,14 @@ node examples/smoke-client.mjs
 
 This starts the local stdio adapter, lists tools, searches for a website due diligence report, and requests the free contract preview with `example.com`. The preview describes the paid result; it is not the full report. The script never signs, pays, or runs on a schedule.
 
+To try two buyer tasks that already have paid demand, run:
+
+```bash
+node examples/try-shopify-and-ssl.mjs
+```
+
+It asks the compact MCP client to find a Shopify catalog lookup and a TLS certificate check, then requests each free live preview. It prints the exact product price and confirms that neither preview settled a payment. The example domains are public and carry no credentials. No wallet is configured.
+
 ## Three places to use a paid result
 
 | Existing workflow | Product | When to call |

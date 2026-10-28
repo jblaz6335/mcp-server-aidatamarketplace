@@ -22,6 +22,8 @@ Start with the free `find_marketplace_products` MCP tool. Give it the buyer's ta
 
 To try the MCP adapter in an existing client, [copy the two-tool configuration](examples/mcp-client.json) and ask your agent: “Find a tool to check a public Shopify storefront. Show me its price and free preview; do not pay.” Compact mode keeps the full catalog behind two tools. The [free integration check](examples/README.md) shows the same discovery and preview path end to end.
 
+Want a runnable example for two common buyer tasks? [Try Shopify catalog and TLS certificate previews](examples/README.md#verify-the-integration-before-buying). Both use the real production source with payment disabled.
+
 The store publishes [live, deduplicated settlement totals](https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/settlement_metrics?days=90) that separate external payments from owner-controlled tests. Paid API calls demonstrate use of the store; they are **not** a count of unique people or proof that each buyer installed this MCP package. npm download counts also include automated installs.
 
 ## Engineering overview
