@@ -26,6 +26,12 @@ Want a runnable example for two common buyer tasks? [Try Shopify catalog and TLS
 
 The store publishes [live, deduplicated settlement totals](https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/settlement_metrics?days=90) that separate external payments from owner-controlled tests. Paid API calls demonstrate use of the store; they are **not** a count of unique people or proof that each buyer installed this MCP package. npm download counts also include automated installs.
 
+## Community spotlight: Grey Ridge Signals
+
+[Grey Ridge Signals](https://x402-data-api.sigrunner.workers.dev/llms.txt) offers a Base swap safety gate and token report that may complement DopamineDesk's token-audit and transaction-preflight tools. Explore their [free swap gate preview](https://x402-data-api.sigrunner.workers.dev/gate/swap/preview?token=aero&side=buy&notional_usd=500) or [free token report preview](https://x402-data-api.sigrunner.workers.dev/chain/token-report/preview?token=aero).
+
+These are independently operated Grey Ridge services, not DopamineDesk products. Review their current terms and prices before authorizing any paid request. We have tested a small number of free previews; their results are not a guarantee of safety.
+
 ## Engineering overview
 
 This repository contains the open-source MCP buyer adapter and client. The marketplace backend is a separate service.
