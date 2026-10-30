@@ -28,6 +28,16 @@ node examples/try-shopify-and-ssl.mjs
 
 It asks the compact MCP client to find a Shopify catalog lookup and a TLS certificate check, then requests each free live preview. It prints the exact product price and confirms that neither preview settled a payment. The example domains are public and carry no credentials. No wallet is configured.
 
+For a stock research and Base token security workflow, run:
+
+```bash
+node examples/try-stock-and-token.mjs
+```
+
+This finds a public-company research brief and a token audit, then requests free previews for AAPL and the Base WETH contract. It prints the listed paid price and confirms no payment was made. A preview describes the response contract and is not the full paid result. Token security signals are not a guarantee of safety; market data is not investment advice.
+
+Coinbase-powered agents can use the same x402 endpoints; this example exercises the DopamineDesk MCP adapter, not a Coinbase account or Coinbase's payment flow. Coinbase's Bazaar search also supports a `payTo` filter: `0x8647F7D7a1368a467Ad1FF757fBc2e7167973558`. Search for `stock research` or `token audit`, with `curatedOnly: false`, to narrow results to this merchant. Check the returned resource, input schema, and current price before any purchase.
+
 ## Three places to use a paid result
 
 | Existing workflow | Product | When to call |
