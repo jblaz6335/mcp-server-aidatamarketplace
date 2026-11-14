@@ -24,6 +24,8 @@ To try the MCP adapter in an existing client, [copy the two-tool configuration](
 
 Want a runnable example for two common buyer tasks? [Try Shopify catalog and TLS certificate previews](examples/README.md#verify-the-integration-before-buying). Both use the real production source with payment disabled.
 
+Looking for current data? [Try free weather and stock research previews](examples/README.md#quick-previews-weather-and-stocks). No wallet is needed; the preview shows the paid response contract rather than the full result.
+
 The store publishes [live, deduplicated settlement totals](https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/settlement_metrics?days=90) that separate external payments from owner-controlled tests. Paid API calls demonstrate use of the store; they are **not** a count of unique people or proof that each buyer installed this MCP package. npm download counts also include automated installs.
 
 ## Community spotlight: Grey Ridge Signals

@@ -10,6 +10,12 @@ For VS Code, merge the `servers.dopaminedesk` entry from `vscode-mcp.json` into 
 
 These examples use compact mode: two tools, with the complete live catalog behind them. Auto-pay is explicitly off. No API key, wallet key, account, or deposit is needed for discovery and previews. Existing clients can keep full mode.
 
+## Quick previews: weather and stocks
+
+Try a [San Francisco weather forecast preview](https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/weather_forecast?city=San%20Francisco&days=2&preview=true) or an [AAPL stock and SEC research preview](https://ai-data-marketplace-1042299154756.us-central1.run.app/api/v1/stock_research_brief?symbol=AAPL&preview=true). Each is free and shows the response contract, sources, and price; it withholds the full paid result. Current paid prices are $0.003 and $0.01 USDC respectively; check the current payment request before buying.
+
+To try both through the MCP adapter, run `node examples/try-weather-and-stock.mjs` after installing the repository dependencies. It discovers each product and checks its free preview; it does not sign or pay. Market data is not investment advice.
+
 ## Verify the integration before buying
 
 From a checked-out copy with dependencies installed, run:
